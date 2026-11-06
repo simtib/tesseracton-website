@@ -27,7 +27,7 @@ export const AegisProductView: React.FC<AegisProductViewProps> = ({
   onOpenPilotModal,
   onNavigateToTag,
 }) => {
-  const [activeProfile, setActiveProfile] = useState<string>('sovereign-factory');
+  const [activeProfile, setActiveProfile] = useState<string>('home');
 
   // 5 Adaptive Deployment Profiles matching user specification
   const deploymentProfiles = [
@@ -108,7 +108,7 @@ export const AegisProductView: React.FC<AegisProductViewProps> = ({
     }
   ];
 
-  const currentProfileData = deploymentProfiles.find(p => p.id === activeProfile) || deploymentProfiles[4];
+  const currentProfileData = deploymentProfiles.find(p => p.id === activeProfile) || deploymentProfiles[0];
 
   return (
     <div className="relative pt-24 pb-20 overflow-hidden">
