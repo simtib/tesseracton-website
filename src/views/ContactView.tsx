@@ -6,10 +6,6 @@ import {
   FileText, 
   ArrowRight, 
   Check, 
-  MapPin, 
-  ShieldCheck, 
-  Key, 
-  Clock, 
   MessageSquare
 } from 'lucide-react';
 
@@ -65,11 +61,9 @@ export const ContactView: React.FC<ContactViewProps> = ({ onOpenPilotModal }) =>
           </p>
         </div>
 
-        {/* Two-Column Grid: Form + Info Panel */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start my-8">
-
-          {/* Left Column: Interactive Form */}
-          <div className="lg:col-span-7 rounded-2xl bg-slate-900/90 border border-slate-800 p-6 sm:p-8 shadow-2xl relative">
+        {/* Engineering Inquiry Form */}
+        <div className="max-w-2xl mx-auto my-8">
+          <div className="rounded-2xl bg-slate-900/90 border border-slate-800 p-6 sm:p-10 shadow-2xl relative">
             {submitted ? (
               <div className="text-center py-12 space-y-4">
                 <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 mx-auto flex items-center justify-center border border-emerald-500/30">
@@ -96,7 +90,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ onOpenPilotModal }) =>
                         description: '',
                       });
                     }}
-                    className="text-xs text-indigo-400 hover:text-indigo-300 underline"
+                    className="text-xs text-indigo-400 hover:text-indigo-300 underline cursor-pointer"
                   >
                     Submit another inquiry
                   </button>
@@ -221,60 +215,6 @@ export const ContactView: React.FC<ContactViewProps> = ({ onOpenPilotModal }) =>
               </form>
             )}
           </div>
-
-          {/* Right Column: Direct Contact & Security Channels */}
-          <div className="lg:col-span-5 space-y-6">
-            
-            {/* Quick Contact Card */}
-            <div className="p-6 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-4">
-              <h4 className="text-sm font-bold text-white flex items-center gap-2">
-                <Clock className="w-4 h-4 text-indigo-400" />
-                <span>Response Commitments</span>
-              </h4>
-              <p className="text-xs text-slate-300 leading-relaxed">
-                Inquiries are triaged directly by senior cryptographic systems engineers. We maintain a strict 4-hour SLA on technical evaluations.
-              </p>
-              <div className="pt-2 border-t border-slate-800/80 space-y-2 text-xs">
-                <div className="flex items-center justify-between text-slate-400">
-                  <span>General Architecture:</span>
-                  <span className="text-white font-mono">arch@tesseracton.ai</span>
-                </div>
-                <div className="flex items-center justify-between text-slate-400">
-                  <span>Enterprise Pilots:</span>
-                  <span className="text-white font-mono">pilots@tesseracton.ai</span>
-                </div>
-              </div>
-            </div>
-
-            {/* PGP Security Key */}
-            <div className="p-6 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-3">
-              <h4 className="text-sm font-bold text-white flex items-center gap-2">
-                <Key className="w-4 h-4 text-emerald-400" />
-                <span>Encrypted Communications</span>
-              </h4>
-              <p className="text-xs text-slate-300 leading-relaxed">
-                For sensitive air-gapped architecture disclosures or defense evaluations, use our security PGP key:
-              </p>
-              <div className="p-3 bg-slate-950 rounded-lg border border-slate-800 font-mono text-[10px] text-emerald-400 break-all select-all">
-                PGP Fingerprint: 4E92 B01F 77A8 30CD 881E F32A 9400 231B C009 51EE
-              </div>
-            </div>
-
-            {/* Global Labs */}
-            <div className="p-6 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-3">
-              <h4 className="text-sm font-bold text-white flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-sky-400" />
-                <span>Primary Sovereign Lab</span>
-              </h4>
-              <div className="text-xs text-slate-300 space-y-1">
-                <p className="font-semibold text-white">Tesseracton AG (Switzerland)</p>
-                <p className="text-slate-400">Technoparkstrasse 1, 8005 Zurich</p>
-                <p className="text-[11px] font-mono text-indigo-400 pt-1">UID: CHE-491.802.193</p>
-              </div>
-            </div>
-
-          </div>
-
         </div>
 
       </div>
