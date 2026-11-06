@@ -1,0 +1,6 @@
+{
+  "name": "Tesseracton - Regulated Compute & Infrastructure Compliance",
+  "description": "Continuous cryptographic verification, hardware attestation, and policy compliance for regulated AI infrastructure and confidential compute.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
