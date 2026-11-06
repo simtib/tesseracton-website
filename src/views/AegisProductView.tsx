@@ -43,16 +43,6 @@ export const AegisProductView: React.FC<AegisProductViewProps> = ({
   const [showOscalRaw, setShowOscalRaw] = useState<boolean>(false);
   const [copiedOscal, setCopiedOscal] = useState<boolean>(false);
 
-  const [cliOutput, setCliOutput] = useState<string[]>([
-    'Aegis AI OS v3.2.0-sovereign initialized.',
-    'Common Core Architecture: ACTIVE • Deployment profile: [Sovereign AI Factory]',
-    'Security Baseline: NIST 800-53 High • OSCAL Engine: READY',
-    'Silicon Root: AMD SEV-SNP + NVIDIA H100 SXM5 Confidential Computing verified.',
-    'Type or click a command below to test enclave operations.'
-  ]);
-  const [commandInput, setCommandInput] = useState('');
-  const [copiedCmd, setCopiedCmd] = useState<string | null>(null);
-
   // 5 Adaptive Deployment Profiles matching user specification
   const deploymentProfiles = [
     {
@@ -178,61 +168,6 @@ export const AegisProductView: React.FC<AegisProductViewProps> = ({
         }
       ]
     }
-  };
-
-  const sampleCommands = [
-    {
-      cmd: 'aegis-cli profile switch --profile sovereign-factory',
-      output: [
-        '[+] ADAPTIVE PROFILE ACTIVATED: Sovereign AI Factory',
-        '    Nodes registered:     1,024 bare-metal GPU hosts',
-        '    Provisioning Engine:  Out-of-band Redfish / PXE with signed UEFI boot',
-        '    Host state:           ATTESTABLE & SYNCHRONIZED',
-        '    Image footprint:      Immutable core OS (~512MB) — Zero unwanted daemons'
-      ]
-    },
-    {
-      cmd: 'aegis-cli assurance --oscal-export --nist-800-53',
-      output: [
-        '[*] GENERATING MACHINE-READABLE OSCAL AUDIT EVIDENCE...',
-        '    Framework Baseline:   NIST 800-53 High (FedRAMP High Ready)',
-        '    Evidence Components:  UEFI Secure Boot, TPM PCRs, dm-verity, SELinux',
-        '    Signed Receipt:       SHA-256: 0x82f01a...998c (Bound to Hardware Root)',
-        '[+] OSCAL artifact exported to /var/log/aegis/oscal-evidence-v3.json'
-      ]
-    },
-    {
-      cmd: 'aegis-cli update --atomic-verify',
-      output: [
-        '[*] INITIATING SIGNED ATOMIC UPDATE...',
-        '[>] Staging target slot: Partition B (v3.2.1-sovereign)',
-        '[>] Verifying cryptographic signature against Tesseracton Hardware Root...',
-        '[+] Signature valid. Testing TPM measured boot in sandbox...',
-        '[+] Attestation verification passed. Swapping active partition cleanly.',
-        '[+] Rollback protection armed: Hardware monotonic counter incremented.'
-      ]
-    },
-    {
-      cmd: 'aegis-cli enclave status',
-      output: [
-        '[+] ENCLAVE STATUS: ACTIVE & SECURED',
-        '    Enclave ID:        enc-9482-sev-snp',
-        '    Host RAM leak:     0 bytes (AES-256-XTS encrypted)',
-        '    GPU Memory Vault:  8x H100 80GB HBM3e (Protected Enclave)',
-        '    Hardware State:    AMD SEV-SNP VMPL0 + NVIDIA CC Firmware v535.161.08',
-        '    TAG Attestation:   Continuous daemon connected [latency: 0.04ms]'
-      ]
-    }
-  ];
-
-  const handleRunCommand = (cmdText: string, specificOutput?: string[]) => {
-    const matched = sampleCommands.find(c => c.cmd.toLowerCase() === cmdText.trim().toLowerCase());
-    const newOutput = specificOutput || (matched ? matched.output : [
-      `Command executed: ${cmdText}`,
-      '[+] Enclave response: OK (Operation verified against Aegis silicon policy)'
-    ]);
-    setCliOutput(prev => [...prev, `> ${cmdText}`, ...newOutput]);
-    setCommandInput('');
   };
 
   const copyOscalToClipboard = () => {
@@ -698,102 +633,7 @@ export const AegisProductView: React.FC<AegisProductViewProps> = ({
           </div>
         </div>
 
-        {/* Interactive CLI Terminal Experience */}
-        <div className="my-16 p-8 sm:p-10 rounded-2xl bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 shadow-2xl">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-            <div>
-              <span className="text-xs font-mono uppercase text-sky-400 tracking-wider font-semibold">DEVELOPER & DEVOPS EXPERIENCE</span>
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mt-1">
-                Aegis Enclave CLI Simulator
-              </h2>
-              <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
-                Test Aegis AI OS commands directly or click the presets below to simulate enclave orchestration.
-              </p>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-xs font-mono text-slate-300">Cluster: LIVE_TEE</span>
-            </div>
-          </div>
 
-          {/* Preset Command Buttons */}
-          <div className="flex flex-wrap gap-2 mb-4">
-            {sampleCommands.map((item, idx) => (
-              <button
-                key={idx}
-                onClick={() => handleRunCommand(item.cmd, item.output)}
-                className="px-3 py-1.5 rounded-lg bg-slate-850 hover:bg-slate-800 border border-slate-700/80 text-xs font-mono text-slate-300 hover:text-white transition-colors flex items-center gap-1.5 cursor-pointer"
-              >
-                <span>$ {item.cmd.split(' ')[1]} {item.cmd.split(' ')[2] || ''}</span>
-              </button>
-            ))}
-          </div>
-
-          {/* Terminal Window */}
-          <div className="rounded-xl bg-[#07090e] border border-slate-800/90 shadow-2xl overflow-hidden font-mono text-xs">
-            <div className="px-4 py-2.5 bg-slate-900/90 border-b border-slate-800/80 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-rose-500/80" />
-                <div className="w-3 h-3 rounded-full bg-amber-500/80" />
-                <div className="w-3 h-3 rounded-full bg-emerald-500/80" />
-                <span className="ml-2 text-slate-400 text-[11px]">aegis-sovereign-node: ~</span>
-              </div>
-              <button
-                onClick={() => setCliOutput(['Terminal reset. Ready for enclave commands.'])}
-                className="text-[10px] text-slate-500 hover:text-slate-300 transition-colors"
-              >
-                Clear
-              </button>
-            </div>
-
-            <div className="p-4 sm:p-5 h-72 overflow-y-auto space-y-1.5 text-slate-300 custom-scrollbar">
-              {cliOutput.map((line, i) => (
-                <div
-                  key={i}
-                  className={`${
-                    line.startsWith('>')
-                      ? 'text-sky-300 font-bold'
-                      : line.startsWith('[+]')
-                      ? 'text-emerald-400'
-                      : line.startsWith('[*]') || line.startsWith('[>]')
-                      ? 'text-indigo-300'
-                      : line.startsWith('[!]')
-                      ? 'text-amber-300'
-                      : 'text-slate-400'
-                  }`}
-                >
-                  {line}
-                </div>
-              ))}
-            </div>
-
-            {/* Input Bar */}
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                if (commandInput.trim()) {
-                  handleRunCommand(commandInput);
-                }
-              }}
-              className="p-3 bg-slate-950 border-t border-slate-800/80 flex items-center gap-2"
-            >
-              <span className="text-sky-400 font-bold">$</span>
-              <input
-                type="text"
-                value={commandInput}
-                onChange={(e) => setCommandInput(e.target.value)}
-                placeholder="Type command (e.g. 'aegis-cli profile switch --profile sovereign-factory')"
-                className="w-full bg-transparent text-white focus:outline-none text-xs placeholder-slate-600 font-mono"
-              />
-              <button
-                type="submit"
-                className="px-3 py-1 bg-sky-600 hover:bg-sky-500 text-white rounded text-xs font-semibold"
-              >
-                Run
-              </button>
-            </form>
-          </div>
-        </div>
 
         {/* Supported Accelerators Matrix */}
         <div className="my-16">
