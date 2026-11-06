@@ -8,8 +8,6 @@ import {
   CheckCircle2, 
   ArrowRight, 
   Flame, 
-  Copy, 
-  Check, 
   AlertCircle,
   Network,
   Zap,
@@ -40,8 +38,6 @@ export const AegisProductView: React.FC<AegisProductViewProps> = ({
 }) => {
   const [activeLayer, setActiveLayer] = useState<number>(2);
   const [activeProfile, setActiveProfile] = useState<string>('sovereign-factory');
-  const [showOscalRaw, setShowOscalRaw] = useState<boolean>(false);
-  const [copiedOscal, setCopiedOscal] = useState<boolean>(false);
 
   // 5 Adaptive Deployment Profiles matching user specification
   const deploymentProfiles = [
@@ -121,60 +117,6 @@ export const AegisProductView: React.FC<AegisProductViewProps> = ({
       cmd: 'aegis-deploy --profile sovereign-factory --out-of-band --mesh-attest'
     }
   ];
-
-  // Sample OSCAL machine-readable JSON artifact representing NIST 800-53 High evidence
-  const sampleOscalJson = {
-    "oscal-version": "1.1.0",
-    "assessment-results": {
-      "uuid": "7c8e9b04-3d21-4f11-9a72-88f01b7a9c33",
-      "metadata": {
-        "title": "Aegis AI OS - Automated NIST 800-53 High Cryptographic Audit Evidence",
-        "last-modified": "2026-11-05T03:51:00Z",
-        "version": "3.2.0-sovereign",
-        "framework": "NIST SP 800-53 Rev. 5 (High Baseline)",
-        "attestation-engine": "TAG / TPM 2.0 Silicon Root"
-      },
-      "results": [
-        {
-          "control-id": "SI-7",
-          "control-title": "Software, Firmware, and Information Integrity",
-          "status": "PASS",
-          "verification-mechanism": "TPM 2.0 PCR[0..7] + dm-verity Immutable Rootfs",
-          "golden-hash": "0x9f83a04c...721b",
-          "measured-hash": "0x9f83a04c...721b",
-          "drift-detected": false
-        },
-        {
-          "control-id": "SC-28",
-          "control-title": "Protection of Information at Rest (GPU Memory Vault)",
-          "status": "PASS",
-          "verification-mechanism": "NVIDIA Hopper/Blackwell CC + AMD SEV-SNP AES-256-XTS",
-          "hbm-encryption": "ACTIVE_HARDWARE",
-          "host-ram-leak": "0_BYTES"
-        },
-        {
-          "control-id": "AC-3",
-          "control-title": "Access Enforcement & Containment",
-          "status": "PASS",
-          "verification-mechanism": "SELinux Enforcing + Zero-Egress Silicon Gateway",
-          "policy-state": "STRICT_SOVEREIGNTY"
-        },
-        {
-          "control-id": "SI-2",
-          "control-title": "Flaw Remediation & Rollback Protection",
-          "status": "PASS",
-          "verification-mechanism": "Signed Atomic A/B Update Engine with TPM Monotonic Counter",
-          "rollback-protection": "HARDWARE_ENFORCED"
-        }
-      ]
-    }
-  };
-
-  const copyOscalToClipboard = () => {
-    navigator.clipboard.writeText(JSON.stringify(sampleOscalJson, null, 2));
-    setCopiedOscal(true);
-    setTimeout(() => setCopiedOscal(false), 2000);
-  };
 
   const layers = [
     {
@@ -489,67 +431,6 @@ export const AegisProductView: React.FC<AegisProductViewProps> = ({
 
           </div>
 
-          {/* Interactive Machine-Readable OSCAL Evidence Viewer */}
-          <div className="rounded-xl bg-[#07090e] border border-slate-800 shadow-2xl overflow-hidden">
-            <div className="px-5 py-3.5 bg-slate-900 border-b border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <div className="flex items-center gap-3">
-                <FileCode className="w-5 h-5 text-indigo-400" />
-                <div>
-                  <span className="text-xs font-bold text-white block">OSCAL Continuous Compliance Assessment Artifact</span>
-                  <span className="text-[10px] font-mono text-slate-400">NIST SP 800-53 Rev. 5 High Baseline • Versioned Evidence</span>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => setShowOscalRaw(!showOscalRaw)}
-                  className="px-3 py-1 rounded bg-slate-800 hover:bg-slate-750 text-[11px] font-mono text-slate-300 transition-colors"
-                >
-                  {showOscalRaw ? 'View Formatted Table' : 'View Raw OSCAL JSON'}
-                </button>
-                <button
-                  onClick={copyOscalToClipboard}
-                  className="px-3 py-1 rounded bg-indigo-600 hover:bg-indigo-500 text-white text-[11px] font-mono flex items-center gap-1.5 transition-colors cursor-pointer"
-                >
-                  {copiedOscal ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                  <span>{copiedOscal ? 'Copied' : 'Copy OSCAL'}</span>
-                </button>
-              </div>
-            </div>
-
-            {showOscalRaw ? (
-              <pre className="p-5 font-mono text-[11px] text-emerald-400/90 overflow-x-auto max-h-80 custom-scrollbar bg-slate-950">
-                {JSON.stringify(sampleOscalJson, null, 2)}
-              </pre>
-            ) : (
-              <div className="p-5 overflow-x-auto">
-                <table className="w-full text-left font-mono text-xs">
-                  <thead>
-                    <tr className="border-b border-slate-800 text-[11px] text-slate-400 uppercase">
-                      <th className="pb-3 font-semibold">Control ID</th>
-                      <th className="pb-3 font-semibold">Control Title</th>
-                      <th className="pb-3 font-semibold">Verification Mechanism</th>
-                      <th className="pb-3 font-semibold text-right">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-800/60 text-slate-300">
-                    {sampleOscalJson["assessment-results"].results.map((res, i) => (
-                      <tr key={i} className="hover:bg-slate-900/40 transition-colors">
-                        <td className="py-3 font-bold text-indigo-400">{res["control-id"]}</td>
-                        <td className="py-3 text-white font-sans text-xs font-medium">{res["control-title"]}</td>
-                        <td className="py-3 text-[11px] text-slate-400">{res["verification-mechanism"]}</td>
-                        <td className="py-3 text-right">
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-bold">
-                            <Check className="w-3 h-3" />
-                            {res.status}
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </div>
         </div>
 
         {/* Interactive Architecture Stack Explorer */}
