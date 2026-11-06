@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   ArrowRight,
+  Briefcase,
   CheckCircle2,
   Cpu, 
+  Factory,
   FileCode,
   HardDrive,
+  Home,
   Lock, 
+  Radio,
   RotateCcw,
+  Share2,
   Shield, 
-  ShieldCheck
+  ShieldCheck,
+  Sliders
 } from 'lucide-react';
 import { AegisIsometricGraphic } from '../components/AegisIsometricGraphic';
 
@@ -21,6 +27,89 @@ export const AegisProductView: React.FC<AegisProductViewProps> = ({
   onOpenPilotModal,
   onNavigateToTag,
 }) => {
+  const [activeProfile, setActiveProfile] = useState<string>('sovereign-factory');
+
+  // 5 Adaptive Deployment Profiles matching user specification
+  const deploymentProfiles = [
+    {
+      id: 'home',
+      name: 'Home',
+      icon: Home,
+      gpuScale: '1–2 GPUs',
+      tagline: 'Local LLMs, desktop assistants, and experimentation',
+      description: 'Ultra-lean deployment profile tailored for local desktop developers, privacy researchers, and local model experimentation without bloated cloud dependencies.',
+      specs: [
+        'Footprint: Sub-450MB immutable rootfs image',
+        'Hardware: 1–2 GPUs (NVIDIA RTX 4090, Ada Lovelace, Apple Silicon or AMD Radeon)',
+        'Storage: Encrypted local KV-cache and model weight vault',
+        'Telemetry: Zero outbound network activity (strict offline mode)'
+      ],
+      cmd: 'aegis-deploy --profile home --gpus 2 --local-llm'
+    },
+    {
+      id: 'pro',
+      name: 'Pro',
+      icon: Briefcase,
+      gpuScale: 'Multi-GPU Workstation',
+      tagline: 'Multi-GPU workstations for lab fine-tuning and inference',
+      description: 'High-performance workstation profile engineered for machine learning labs, R&D teams, and quantized model validation with fast checkpointing and local hardware attestation.',
+      specs: [
+        'Footprint: Lean developer-tuned container runtime',
+        'Hardware: 4–8 Workstation GPUs (RTX 6000 Ada, dual/quad H100 NVL)',
+        'Isolation: Hardware memory encryption & local PCR verification',
+        'Optimization: Zero-copy DMA for LoRA / QLoRA fine-tuning'
+      ],
+      cmd: 'aegis-deploy --profile pro --workstation --fine-tune'
+    },
+    {
+      id: 'edge',
+      name: 'Edge',
+      icon: Radio,
+      gpuScale: 'Rugged & Disconnected',
+      tagline: 'Rugged, disconnected deployments for remote inference and offline fleet ops',
+      description: 'Hardened, resilient OS image for austere, disconnected, or mobile environments (defense vehicles, tactical edge, industrial robotics, hospital edge nodes) with zero external network requirement.',
+      specs: [
+        'Footprint: Read-only signed flash firmware image',
+        'Hardware: Ruggedized Jetson Thor, Drive Thor, or edge GPU enclosures',
+        'Resilience: Autonomous boot without external key servers; physical tamper lock bound to TPM',
+        'Fleet Ops: Encrypted local store-and-forward batch logs'
+      ],
+      cmd: 'aegis-deploy --profile edge --air-gapped --disconnected-mode'
+    },
+    {
+      id: 'cluster',
+      name: 'Cluster',
+      icon: Share2,
+      gpuScale: 'Multi-Node Enterprise',
+      tagline: 'Lab and enterprise environments with shared job scheduling and tenancy',
+      description: 'Multi-tenant enterprise profile providing dynamic GPU slicing, workload isolation, and seamless orchestration across shared Kubernetes and Slurm environments.',
+      specs: [
+        'Footprint: Slurm & Kubernetes CRI-O native plugin runtime',
+        'Hardware: 8–256 GPUs with InfiniBand / RoCE v2 low-latency fabric',
+        'Multi-Tenancy: Cryptographic hardware memory barriers between tenant containers',
+        'Scheduling: Integrated with Slurm fair-share and Kubernetes priority preemption'
+      ],
+      cmd: 'aegis-deploy --profile cluster --k8s --multi-tenant'
+    },
+    {
+      id: 'sovereign-factory',
+      name: 'Sovereign AI Factory',
+      icon: Factory,
+      gpuScale: 'Thousands of Hosts',
+      tagline: 'Scale-out environments spanning thousands of hosts with out-of-band provisioning and attestable host states',
+      description: 'Massive scale-out profile for national sovereign AI datacenters, hyperscale cloud enclaves, and foundation model training clusters with fleet-wide automated attestation and out-of-band management.',
+      specs: [
+        'Footprint: Zero-touch network boot (PXE/Redfish) with signed immutable rootfs',
+        'Hardware: 1,000+ to 32,000+ H100/H200/B200 GPUs with NVLink multi-node clusters',
+        'Out-of-Band: Automated BMC/IPMI out-of-band firmware measurement and golden provisioning',
+        'Attestation Mesh: Continuous fleet-wide TAG attestation with real-time drift self-healing'
+      ],
+      cmd: 'aegis-deploy --profile sovereign-factory --out-of-band --mesh-attest'
+    }
+  ];
+
+  const currentProfileData = deploymentProfiles.find(p => p.id === activeProfile) || deploymentProfiles[4];
+
   return (
     <div className="relative pt-24 pb-20 overflow-hidden">
       {/* Background illumination */}
@@ -97,7 +186,97 @@ export const AegisProductView: React.FC<AegisProductViewProps> = ({
           </div>
         </div>
 
+        {/* ========================================================================= */}
+        {/* NEW SECTION 1: ONE COMMON CORE ARCHITECTURE • 5 ADAPTIVE DEPLOYMENT PROFILES */}
+        {/* ========================================================================= */}
+        <div className="my-14 p-8 sm:p-10 rounded-2xl bg-gradient-to-b from-slate-900/90 via-slate-950 to-slate-900/90 border border-sky-500/30 shadow-2xl relative overflow-hidden">
+          <div className="max-w-3xl mb-8">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-950/80 border border-sky-500/30 text-sky-400 text-xs font-mono font-semibold mb-3">
+              <Sliders className="w-3.5 h-3.5" />
+              <span>CORE ARCHITECTURE & ADAPTIVE FOOTPRINTS</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+              One Common Core OS. Five Distinct Footprints.
+            </h2>
+            <p className="text-sm text-slate-300 mt-2 leading-relaxed">
+              Rather than maintaining fractured operating systems or deploying bloated multi-gigabyte images everywhere, Aegis AI OS uses a single, cryptographically proven microkernel base that adapts dynamically to the target environment's memory, compute, and connectivity constraints.
+            </p>
+          </div>
 
+          {/* 5 Profile Selector Buttons */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-8">
+            {deploymentProfiles.map((prof) => {
+              const Icon = prof.icon;
+              const isSelected = activeProfile === prof.id;
+              return (
+                <button
+                  key={prof.id}
+                  onClick={() => setActiveProfile(prof.id)}
+                  className={`p-4 rounded-xl text-left border transition-all cursor-pointer flex flex-col justify-between space-y-3 ${
+                    isSelected
+                      ? 'bg-sky-950/80 border-sky-400 text-white shadow-lg shadow-sky-500/20 ring-1 ring-sky-400'
+                      : 'bg-slate-900/60 border-slate-800 text-slate-300 hover:bg-slate-850 hover:border-slate-700'
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+                      isSelected ? 'bg-sky-500 text-slate-950' : 'bg-slate-800 text-slate-400'
+                    }`}>
+                      <Icon className="w-4 h-4" />
+                    </div>
+                    <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-950 border border-slate-800 text-slate-400">
+                      {prof.gpuScale.split(' ')[0]}
+                    </span>
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-white">{prof.name}</h4>
+                    <p className="text-[11px] text-slate-400 font-mono mt-0.5">{prof.gpuScale}</p>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Selected Profile Detailed Card */}
+          <div className="p-6 sm:p-8 rounded-xl bg-slate-950 border border-slate-800 shadow-xl space-y-6">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-xl bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-sky-400">
+                  <currentProfileData.icon className="w-6 h-6" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-xl font-bold text-white">{currentProfileData.name} Profile</h3>
+                    <span className="px-2.5 py-0.5 rounded text-[10px] font-mono uppercase bg-sky-500/10 text-sky-300 border border-sky-500/20 font-semibold">
+                      Footprint Active
+                    </span>
+                  </div>
+                  <p className="text-xs font-mono text-sky-400/90 mt-0.5">{currentProfileData.tagline}</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <div className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-xs font-mono text-slate-300 flex items-center gap-2">
+                  <span className="text-slate-500">Target Scale:</span>
+                  <span className="text-emerald-400 font-semibold">{currentProfileData.gpuScale}</span>
+                </div>
+              </div>
+            </div>
+
+            <p className="text-sm text-slate-300 leading-relaxed max-w-4xl">
+              {currentProfileData.description}
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+              {currentProfileData.specs.map((item, idx) => (
+                <div key={idx} className="p-3.5 rounded-lg bg-slate-900/70 border border-slate-800/80 flex items-start gap-2.5 text-xs text-slate-200">
+                  <CheckCircle2 className="w-4 h-4 text-sky-400 flex-shrink-0 mt-0.5" />
+                  <span>{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
 
         {/* ========================================================================= */}
         {/* NEW SECTION 2: SECURE-BY-DEFAULT & EVIDENCE-FIRST ASSURANCE */}
