@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 import { 
   Building, 
@@ -6,14 +7,12 @@ import {
   Lock, 
   ArrowRight
 } from 'lucide-react';
-import { NavigationTab } from '../types';
 
 interface CompanyViewProps {
-  onNavigate: (tab: NavigationTab) => void;
   onOpenPilotModal: () => void;
 }
 
-export const CompanyView: React.FC<CompanyViewProps> = ({ onNavigate, onOpenPilotModal }) => {
+export const CompanyView: React.FC<CompanyViewProps> = ({ onOpenPilotModal }) => {
   const pillars = [
     {
       icon: Cpu,
@@ -129,13 +128,13 @@ export const CompanyView: React.FC<CompanyViewProps> = ({ onNavigate, onOpenPilo
             </p>
           </div>
           <div className="flex items-center gap-3">
-            <button
-              onClick={() => onNavigate('contact')}
+            <Link
+              href="/contact"
               className="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs tracking-wide uppercase transition-all shadow-lg shadow-indigo-600/30 flex items-center gap-2 whitespace-nowrap cursor-pointer"
             >
               <span>Get in Touch</span>
               <ArrowRight className="w-4 h-4" />
-            </button>
+            </Link>
           </div>
         </div>
 

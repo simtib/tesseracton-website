@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 import { 
   ShieldCheck, 
@@ -15,14 +16,12 @@ import {
   Database,
   Globe2
 } from 'lucide-react';
-import { NavigationTab } from '../types';
 
 interface HomeViewProps {
-  onNavigate: (tab: NavigationTab) => void;
   onOpenPilotModal: () => void;
 }
 
-export const HomeView: React.FC<HomeViewProps> = ({ onNavigate, onOpenPilotModal }) => {
+export const HomeView: React.FC<HomeViewProps> = ({ onOpenPilotModal }) => {
   return (
     <div className="relative pt-28 pb-20 overflow-hidden">
       {/* Background ambient lighting */}
@@ -55,21 +54,21 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate, onOpenPilotModal
 
           {/* Quick CTA Actions */}
           <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
-            <button
-              onClick={() => onNavigate('tag')}
+            <Link
+              href="/tag"
               className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 via-indigo-700 to-purple-700 hover:from-indigo-500 hover:to-purple-600 text-white font-semibold text-sm flex items-center gap-2 shadow-xl shadow-indigo-600/30 hover:shadow-indigo-600/50 transition-all border border-indigo-400/30 group cursor-pointer"
             >
               <span>Explore TAG (Attestation Gateway)</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </button>
-            <button
-              onClick={() => onNavigate('aegis-os')}
+            </Link>
+            <Link
+              href="/aegis-os"
               className="px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-850 text-slate-200 hover:text-white font-semibold text-sm flex items-center gap-2 border border-slate-700/80 hover:border-slate-600 transition-all shadow-lg group cursor-pointer"
             >
               <Cpu className="w-4 h-4 text-sky-400" />
               <span>Explore Aegis AI OS</span>
               <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform" />
-            </button>
+            </Link>
           </div>
         </div>
 
@@ -77,8 +76,8 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate, onOpenPilotModal
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 my-10">
           
           {/* Card 1: TAG */}
-          <div 
-            onClick={() => onNavigate('tag')}
+          <Link
+            href="/tag"
             className="group relative rounded-2xl bg-gradient-to-b from-slate-900/90 to-slate-950 border border-slate-800 hover:border-indigo-500/50 p-8 transition-all duration-300 shadow-xl hover:shadow-indigo-500/10 flex flex-col justify-between cursor-pointer"
           >
             <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-bl-full pointer-events-none group-hover:bg-indigo-500/20 transition-colors" />
@@ -125,11 +124,11 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate, onOpenPilotModal
                 Enter TAG Section <ArrowRight className="w-4 h-4" />
               </span>
             </div>
-          </div>
+          </Link>
 
           {/* Card 2: Aegis AI OS */}
-          <div 
-            onClick={() => onNavigate('aegis-os')}
+          <Link
+            href="/aegis-os"
             className="group relative rounded-2xl bg-gradient-to-b from-slate-900/90 to-slate-950 border border-slate-800 hover:border-sky-500/50 p-8 transition-all duration-300 shadow-xl hover:shadow-sky-500/10 flex flex-col justify-between cursor-pointer"
           >
             <div className="absolute top-0 right-0 w-32 h-32 bg-sky-500/10 rounded-bl-full pointer-events-none group-hover:bg-sky-500/20 transition-colors" />
@@ -176,7 +175,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate, onOpenPilotModal
                 Explore Aegis AI OS <ArrowRight className="w-4 h-4" />
               </span>
             </div>
-          </div>
+          </Link>
         </div>
 
         {/* The Dual-Shield Architecture Synergy Section */}
@@ -243,12 +242,12 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate, onOpenPilotModal
             >
               Request Enterprise Pilot
             </button>
-            <button
-              onClick={() => onNavigate('contact')}
+            <Link
+              href="/contact"
               className="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-750 text-slate-200 hover:text-white font-semibold text-xs transition-colors whitespace-nowrap cursor-pointer"
             >
               Contact Sales
-            </button>
+            </Link>
           </div>
         </div>
 

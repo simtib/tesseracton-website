@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React, { useState } from 'react';
 import { 
   ArrowRight,
@@ -20,12 +21,10 @@ import { AegisIsometricGraphic } from '../components/AegisIsometricGraphic';
 
 interface AegisProductViewProps {
   onOpenPilotModal: () => void;
-  onNavigateToTag: () => void;
 }
 
 export const AegisProductView: React.FC<AegisProductViewProps> = ({
   onOpenPilotModal,
-  onNavigateToTag,
 }) => {
   const [activeProfile, setActiveProfile] = useState<string>('home');
 
@@ -151,14 +150,14 @@ export const AegisProductView: React.FC<AegisProductViewProps> = ({
                   <span>Deploy Aegis AI OS in Pilot</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </button>
-                <button
-                  onClick={onNavigateToTag}
+                <Link
+                  href="/tag"
                   className="px-5 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-850 text-slate-200 hover:text-white font-semibold text-sm flex items-center gap-2 border border-slate-700/80 hover:border-slate-600 transition-all shadow-lg group cursor-pointer"
                 >
                   <Shield className="w-4 h-4 text-indigo-400" />
                   <span>Pair with TAG Gateway</span>
                   <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform" />
-                </button>
+                </Link>
               </div>
 
               {/* Security Anchor Checklist */}

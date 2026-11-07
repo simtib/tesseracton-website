@@ -1,16 +1,15 @@
+import Link from 'next/link';
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronDown, ArrowRight, Menu, X, ShieldCheck, Cpu, Layers } from 'lucide-react';
 import { NavigationTab } from '../types';
 
 interface NavbarProps {
-  activeTab: NavigationTab;
-  onNavigate: (tab: NavigationTab) => void;
+  activeTab?: NavigationTab;
   onOpenPilotModal: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
   activeTab,
-  onNavigate,
   onOpenPilotModal,
 }) => {
   const [scrolled, setScrolled] = useState(false);
@@ -22,6 +21,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
+    handleScroll();
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -37,18 +37,9 @@ export const Navbar: React.FC<NavbarProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleSelectProduct = (tab: 'tag' | 'aegis-os') => {
-    onNavigate(tab);
+  const closeMenus = () => {
     setProductsOpen(false);
     setMobileMenuOpen(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleTabClick = (tab: NavigationTab) => {
-    onNavigate(tab);
-    setProductsOpen(false);
-    setMobileMenuOpen(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const isProductActive = activeTab === 'tag' || activeTab === 'aegis-os';
@@ -64,8 +55,8 @@ export const Navbar: React.FC<NavbarProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         
         {/* Brand Logo - Matched to User's Screenshot */}
-        <div
-          onClick={() => handleTabClick('home')}
+        <Link
+          href="/" onNavigate={closeMenus}
           className="flex items-center gap-3 cursor-pointer group"
           id="brand-logo"
         >
@@ -82,14 +73,14 @@ export const Navbar: React.FC<NavbarProps> = ({
           <span className="text-xl font-bold tracking-tight text-white font-sans">
             Tesseracton
           </span>
-        </div>
+        </Link>
 
         {/* Desktop Navigation Links */}
         <div className="hidden lg:flex items-center gap-1.5 xl:gap-2 text-sm font-medium">
           
           {/* Home Tab - Pill style when active (exact match to screenshot) */}
-          <button
-            onClick={() => handleTabClick('home')}
+          <Link
+            href="/" onNavigate={closeMenus}
             className={`px-4 py-2 rounded-lg transition-all text-sm font-semibold ${
               activeTab === 'home'
                 ? 'bg-slate-800/90 text-white shadow-sm border border-slate-700/60'
@@ -97,7 +88,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             }`}
           >
             Home
-          </button>
+          </Link>
 
           {/* Products Dropdown */}
           <div className="relative" ref={dropdownRef}>
@@ -121,8 +112,8 @@ export const Navbar: React.FC<NavbarProps> = ({
                 className="absolute top-full left-0 mt-2 w-72 rounded-2xl bg-slate-900/95 border border-slate-800 p-2 shadow-2xl backdrop-blur-xl animate-in fade-in slide-in-from-top-2 duration-150 z-50"
               >
                 {/* Option 1: TAG */}
-                <button
-                  onClick={() => handleSelectProduct('tag')}
+                <Link
+                  href="/tag" onNavigate={closeMenus}
                   className={`w-full p-3 rounded-xl text-left transition-all flex items-start gap-3 group cursor-pointer ${
                     activeTab === 'tag'
                       ? 'bg-indigo-950/70 border border-indigo-500/40 text-white'
@@ -141,13 +132,13 @@ export const Navbar: React.FC<NavbarProps> = ({
                       Hardware-rooted attestation, golden PCR matching & evidence chains for GPU clouds.
                     </p>
                   </div>
-                </button>
+                </Link>
 
                 <div className="my-1 border-t border-slate-800/80" />
 
                 {/* Option 2: Aegis AI OS */}
-                <button
-                  onClick={() => handleSelectProduct('aegis-os')}
+                <Link
+                  href="/aegis-os" onNavigate={closeMenus}
                   className={`w-full p-3 rounded-xl text-left transition-all flex items-start gap-3 group cursor-pointer ${
                     activeTab === 'aegis-os'
                       ? 'bg-sky-950/70 border border-sky-500/40 text-white'
@@ -166,14 +157,14 @@ export const Navbar: React.FC<NavbarProps> = ({
                       Hardened microkernel, encrypted GPU weight vault & zero-egress sandboxing.
                     </p>
                   </div>
-                </button>
+                </Link>
               </div>
             )}
           </div>
 
           {/* Services Tab */}
-          <button
-            onClick={() => handleTabClick('services')}
+          <Link
+            href="/services" onNavigate={closeMenus}
             className={`px-3.5 py-2 rounded-lg transition-all text-sm font-medium ${
               activeTab === 'services'
                 ? 'bg-slate-800/90 text-white shadow-sm border border-slate-700/60'
@@ -181,11 +172,11 @@ export const Navbar: React.FC<NavbarProps> = ({
             }`}
           >
             Services
-          </button>
+          </Link>
 
           {/* Company Tab */}
-          <button
-            onClick={() => handleTabClick('company')}
+          <Link
+            href="/company" onNavigate={closeMenus}
             className={`px-3.5 py-2 rounded-lg transition-all text-sm font-medium ${
               activeTab === 'company'
                 ? 'bg-slate-800/90 text-white shadow-sm border border-slate-700/60'
@@ -193,11 +184,11 @@ export const Navbar: React.FC<NavbarProps> = ({
             }`}
           >
             Company
-          </button>
+          </Link>
 
           {/* Contact Us Tab */}
-          <button
-            onClick={() => handleTabClick('contact')}
+          <Link
+            href="/contact" onNavigate={closeMenus}
             className={`px-3.5 py-2 rounded-lg transition-all text-sm font-medium ${
               activeTab === 'contact'
                 ? 'bg-slate-800/90 text-white shadow-sm border border-slate-700/60'
@@ -205,7 +196,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             }`}
           >
             Contact Us
-          </button>
+          </Link>
         </div>
 
         {/* CTA Buttons */}
@@ -241,66 +232,66 @@ export const Navbar: React.FC<NavbarProps> = ({
       {mobileMenuOpen && (
         <div className="lg:hidden border-b border-slate-800 bg-[#090d18] px-4 pt-3 pb-6 space-y-3 shadow-2xl animate-in slide-in-from-top-4 duration-200">
           <div className="flex flex-col space-y-1">
-            <button
-              onClick={() => handleTabClick('home')}
+            <Link
+              href="/" onNavigate={closeMenus}
               className={`text-left px-3 py-2 rounded-lg text-sm font-medium ${
                 activeTab === 'home' ? 'bg-slate-800 text-white font-bold' : 'text-slate-300 hover:bg-slate-800/60'
               }`}
             >
               Home
-            </button>
+            </Link>
 
             {/* Products Group on Mobile */}
             <div className="pt-1 pb-1">
               <span className="px-3 text-[11px] font-mono uppercase text-slate-500 font-semibold tracking-wider">Products</span>
               <div className="mt-1 pl-2 space-y-1">
-                <button
-                  onClick={() => handleSelectProduct('tag')}
+                <Link
+                  href="/tag" onNavigate={closeMenus}
                   className={`w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2 ${
                     activeTab === 'tag' ? 'bg-indigo-950/80 text-indigo-300 font-semibold border border-indigo-500/40' : 'text-slate-300 hover:bg-slate-800/60'
                   }`}
                 >
                   <ShieldCheck className="w-4 h-4 text-indigo-400" />
                   <span>TAG (Attestation Gateway)</span>
-                </button>
-                <button
-                  onClick={() => handleSelectProduct('aegis-os')}
+                </Link>
+                <Link
+                  href="/aegis-os" onNavigate={closeMenus}
                   className={`w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2 ${
                     activeTab === 'aegis-os' ? 'bg-sky-950/80 text-sky-300 font-semibold border border-sky-500/40' : 'text-slate-300 hover:bg-slate-800/60'
                   }`}
                 >
                   <Cpu className="w-4 h-4 text-sky-400" />
                   <span>Aegis AI OS</span>
-                </button>
+                </Link>
               </div>
             </div>
 
-            <button
-              onClick={() => handleTabClick('services')}
+            <Link
+              href="/services" onNavigate={closeMenus}
               className={`text-left px-3 py-2 rounded-lg text-sm font-medium ${
                 activeTab === 'services' ? 'bg-slate-800 text-white font-bold' : 'text-slate-300 hover:bg-slate-800/60'
               }`}
             >
               Services
-            </button>
+            </Link>
 
-            <button
-              onClick={() => handleTabClick('company')}
+            <Link
+              href="/company" onNavigate={closeMenus}
               className={`text-left px-3 py-2 rounded-lg text-sm font-medium ${
                 activeTab === 'company' ? 'bg-slate-800 text-white font-bold' : 'text-slate-300 hover:bg-slate-800/60'
               }`}
             >
               Company
-            </button>
+            </Link>
 
-            <button
-              onClick={() => handleTabClick('contact')}
+            <Link
+              href="/contact" onNavigate={closeMenus}
               className={`text-left px-3 py-2 rounded-lg text-sm font-medium ${
                 activeTab === 'contact' ? 'bg-slate-800 text-white font-bold' : 'text-slate-300 hover:bg-slate-800/60'
               }`}
             >
               Contact Us
-            </button>
+            </Link>
           </div>
 
           <div className="pt-2 border-t border-slate-800 flex flex-col gap-2">

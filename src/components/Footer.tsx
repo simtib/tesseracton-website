@@ -1,20 +1,8 @@
+import Link from 'next/link';
 import React from 'react';
 import { ShieldCheck, Github, Twitter, Linkedin, Globe2, ArrowRight } from 'lucide-react';
-import { NavigationTab } from '../types';
 
-interface FooterProps {
-  onNavigate: (tab: NavigationTab) => void;
-  onOpenPilotModal?: () => void;
-}
-
-export const Footer: React.FC<FooterProps> = ({
-  onNavigate,
-}) => {
-  const handleNav = (tab: NavigationTab) => {
-    onNavigate(tab);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
+export const Footer = () => {
   return (
     <footer className="bg-[#05070b] border-t border-slate-900 text-slate-400 text-xs py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -22,8 +10,8 @@ export const Footer: React.FC<FooterProps> = ({
           
           {/* Brand Col */}
           <div className="lg:col-span-2 space-y-4">
-            <div 
-              onClick={() => handleNav('home')}
+            <Link
+              href="/"
               className="flex items-center gap-3 cursor-pointer group"
             >
               <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-sky-500 p-0.5 shadow-md">
@@ -38,7 +26,7 @@ export const Footer: React.FC<FooterProps> = ({
               <span className="text-base font-bold text-white tracking-tight font-sans">
                 Tesseracton
               </span>
-            </div>
+            </Link>
             <p className="text-slate-400 text-xs max-w-sm leading-relaxed">
               Provable silicon-grade security for foundation models and sovereign AI infrastructure. Enforce confidential execution with Aegis AI OS and verify compliance with TAG.
             </p>
@@ -57,20 +45,20 @@ export const Footer: React.FC<FooterProps> = ({
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
-                <button
-                  onClick={() => handleNav('tag')}
+                <Link
+                  href="/tag"
                   className="hover:text-white text-indigo-400 transition-colors flex items-center gap-1 font-medium cursor-pointer"
                 >
                   <span>TAG (Attestation Gateway)</span>
-                </button>
+                </Link>
               </li>
               <li>
-                <button
-                  onClick={() => handleNav('aegis-os')}
+                <Link
+                  href="/aegis-os"
                   className="hover:text-white text-sky-400 transition-colors flex items-center gap-1 font-medium cursor-pointer"
                 >
                   <span>Aegis AI OS</span>
-                </button>
+                </Link>
               </li>
             </ul>
           </div>
@@ -82,36 +70,36 @@ export const Footer: React.FC<FooterProps> = ({
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
-                <button
-                  onClick={() => handleNav('services')}
+                <Link
+                  href="/services"
                   className="hover:text-white transition-colors cursor-pointer text-slate-300 hover:text-white"
                 >
                   Professional Services
-                </button>
+                </Link>
               </li>
               <li>
-                <button
-                  onClick={() => handleNav('services')}
+                <Link
+                  href="/services"
                   className="hover:text-white transition-colors cursor-pointer text-slate-400 hover:text-slate-200"
                 >
                   Air-Gapped Sovereign Deployment
-                </button>
+                </Link>
               </li>
               <li>
-                <button
-                  onClick={() => handleNav('services')}
+                <Link
+                  href="/services"
                   className="hover:text-white transition-colors cursor-pointer text-slate-400 hover:text-slate-200"
                 >
                   Custom PCR Baseline Audits
-                </button>
+                </Link>
               </li>
               <li>
-                <button
-                  onClick={() => handleNav('services')}
+                <Link
+                  href="/services"
                   className="hover:text-white transition-colors cursor-pointer text-slate-400 hover:text-slate-200"
                 >
                   EU AI Act Certification
-                </button>
+                </Link>
               </li>
             </ul>
           </div>
@@ -123,20 +111,20 @@ export const Footer: React.FC<FooterProps> = ({
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
-                <button
-                  onClick={() => handleNav('company')}
+                <Link
+                  href="/company"
                   className="hover:text-white transition-colors cursor-pointer text-slate-300 hover:text-white"
                 >
                   About Tesseracton
-                </button>
+                </Link>
               </li>
               <li>
-                <button
-                  onClick={() => handleNav('contact')}
+                <Link
+                  href="/contact"
                   className="hover:text-white transition-colors cursor-pointer text-slate-300 hover:text-white"
                 >
                   Contact Security Architects
-                </button>
+                </Link>
               </li>
             </ul>
           </div>

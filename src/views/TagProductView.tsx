@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 import { HeroSection } from '../components/HeroSection';
 import { ProblemSection } from '../components/ProblemSection';
@@ -11,13 +12,11 @@ import { ShieldCheck, Cpu, Database, Award, ArrowRight } from 'lucide-react';
 interface TagProductViewProps {
   onOpenPilotModal: () => void;
   onOpenEvidenceProof: (node: HardwareNode) => void;
-  onNavigateToAegis?: () => void;
 }
 
 export const TagProductView: React.FC<TagProductViewProps> = ({
   onOpenPilotModal,
   onOpenEvidenceProof,
-  onNavigateToAegis,
 }) => {
   const handleOpenLiveDashboard = () => {
     const el = document.getElementById('interactive-dashboard-section');
@@ -49,15 +48,13 @@ export const TagProductView: React.FC<TagProductViewProps> = ({
           </div>
 
           <div className="flex items-center gap-3">
-            {onNavigateToAegis && (
-              <button
-                onClick={onNavigateToAegis}
-                className="px-3.5 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white bg-slate-900/80 border border-slate-800 hover:border-slate-700 transition-all flex items-center gap-1.5 group"
-              >
-                <span>Pair with Aegis AI OS</span>
-                <ArrowRight className="w-3.5 h-3.5 text-indigo-400 group-hover:translate-x-0.5 transition-transform" />
-              </button>
-            )}
+            <Link
+              href="/aegis-os"
+              className="px-3.5 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white bg-slate-900/80 border border-slate-800 hover:border-slate-700 transition-all flex items-center gap-1.5 group"
+            >
+              <span>Pair with Aegis AI OS</span>
+              <ArrowRight className="w-3.5 h-3.5 text-indigo-400 group-hover:translate-x-0.5 transition-transform" />
+            </Link>
             <button
               onClick={handleOpenLiveDashboard}
               className="px-3.5 py-1.5 rounded-lg text-xs font-medium text-indigo-300 bg-indigo-950/50 border border-indigo-500/30 hover:bg-indigo-900/50 transition-colors"

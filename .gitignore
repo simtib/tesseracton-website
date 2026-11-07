@@ -7,3 +7,11 @@ coverage/
 .env*
 !.env.example
 .aistudio/
+
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+test-results/
+playwright-report/
+.design-checks/
