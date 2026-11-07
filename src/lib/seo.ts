@@ -10,7 +10,7 @@ export const pageDetails: Record<NavigationTab, { title: string; description: st
     description: 'Continuous cryptographic verification, hardware attestation, and policy compliance for regulated AI infrastructure and confidential compute.',
   },
   tag: {
-    title: 'TAG — Attestation Gateway',
+    title: 'TAG — Assurance Grid',
     description: 'Continuous hardware-rooted attestation, golden PCR matching, and cryptographic evidence chains for regulated AI and sovereign GPU infrastructure.',
   },
   'aegis-os': {

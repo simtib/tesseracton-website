@@ -38,7 +38,7 @@ for (const path of paths) {
 
 test('navigation supports URLs, reload, browser history, and legacy hashes', async ({ page }) => {
   await page.goto('/');
-  await page.getByRole('link', { name: 'Explore TAG (Attestation Gateway)', exact: true }).click();
+  await page.getByRole('link', { name: 'Explore TAG (Assurance Grid)', exact: true }).click();
   await expect(page).toHaveURL(/\/tag$/);
   await page.reload();
   await expect(page.getByRole('button', { name: 'Jump to Live Nodes' })).toBeVisible();

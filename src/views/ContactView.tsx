@@ -178,7 +178,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ onOpenPilotModal }) =>
                     onChange={(e) => setFormData({ ...formData, inquiryType: e.target.value })}
                     className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors cursor-pointer"
                   >
-                    <option value="Enterprise Pilot Evaluation">TAG (Attestation Gateway) Enterprise Pilot</option>
+                    <option value="Enterprise Pilot Evaluation">TAG (Assurance Grid) Enterprise Pilot</option>
                     <option value="Aegis AI OS Cluster Trial">Aegis AI OS Hardened Kernel Trial</option>
                     <option value="Sovereign Cloud Architecture Briefing">Sovereign Cloud / Air-Gapped Architecture Briefing</option>
                     <option value="EU AI Act / FedRAMP Compliance Fast-Track">EU AI Act / FedRAMP Certification Fast-Track</option>

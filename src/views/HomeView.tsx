@@ -58,7 +58,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onOpenPilotModal }) => {
               href="/tag"
               className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 via-indigo-700 to-purple-700 hover:from-indigo-500 hover:to-purple-600 text-white font-semibold text-sm flex items-center gap-2 shadow-xl shadow-indigo-600/30 hover:shadow-indigo-600/50 transition-all border border-indigo-400/30 group cursor-pointer"
             >
-              <span>Explore TAG (Attestation Gateway)</span>
+              <span>Explore TAG (Assurance Grid)</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
@@ -94,7 +94,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onOpenPilotModal }) => {
 
               <div>
                 <h3 className="text-2xl font-bold text-white group-hover:text-indigo-300 transition-colors flex items-center gap-2">
-                  TAG: Tesseracton Attestation Gateway
+                  TAG: Tesseracton Assurance Grid
                 </h3>
                 <p className="text-xs font-mono text-indigo-400/90 mt-1">Continuous Hardware-Rooted Compliance for GPU Clouds</p>
               </div>

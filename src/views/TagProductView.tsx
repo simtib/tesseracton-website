@@ -36,7 +36,7 @@ export const TagProductView: React.FC<TagProductViewProps> = ({
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-base font-bold text-white tracking-tight">TAG: Tesseracton Attestation Gateway</span>
+                <span className="text-base font-bold text-white tracking-tight">TAG: Tesseracton Assurance Grid</span>
                 <span className="px-2 py-0.5 rounded text-[10px] font-mono uppercase bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-semibold">
                   Product Core
                 </span>

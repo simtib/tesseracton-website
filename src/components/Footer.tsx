@@ -49,7 +49,7 @@ export const Footer = () => {
                   href="/tag"
                   className="hover:text-white text-indigo-400 transition-colors flex items-center gap-1 font-medium cursor-pointer"
                 >
-                  <span>TAG (Attestation Gateway)</span>
+                  <span>TAG (Assurance Grid)</span>
                 </Link>
               </li>
               <li>

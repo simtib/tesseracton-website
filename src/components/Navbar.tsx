@@ -126,7 +126,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   <div>
                     <div className="flex items-center gap-1.5">
                       <span className="text-sm font-bold text-white group-hover:text-indigo-300 transition-colors">TAG</span>
-                      <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Gateway</span>
+                      <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Grid</span>
                     </div>
                     <p className="text-[11px] text-slate-400 mt-0.5 leading-snug">
                       Hardware-rooted attestation, golden PCR matching & evidence chains for GPU clouds.
@@ -252,7 +252,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   }`}
                 >
                   <ShieldCheck className="w-4 h-4 text-indigo-400" />
-                  <span>TAG (Attestation Gateway)</span>
+                  <span>TAG (Assurance Grid)</span>
                 </Link>
                 <Link
                   href="/aegis-os" onNavigate={closeMenus}
