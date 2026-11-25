@@ -41,9 +41,10 @@ export function SiteShell({ children }: { children: ReactNode }) {
 
   return (
     <SiteContext.Provider value={{ openPilot: () => setIsPilotModalOpen(true), openEvidence: setSelectedProofNode }}>
-      <div className="min-h-screen bg-[#07090e] text-slate-100 selection:bg-indigo-500 selection:text-white font-sans antialiased overflow-x-hidden">
+      <div className="min-h-screen bg-canvas text-ink selection:bg-action selection:text-ink font-sans antialiased overflow-x-hidden">
+        <a href="#main-content" className="skip-link">Skip to content</a>
         <Navbar key={pathname} activeTab={activeTab} onOpenPilotModal={() => setIsPilotModalOpen(true)} />
-        <main>{children}</main>
+        <main id="main-content" tabIndex={-1}>{children}</main>
         <Footer />
         <PilotModal isOpen={isPilotModalOpen} onClose={() => setIsPilotModalOpen(false)} />
         <EvidenceProofModal node={selectedProofNode} onClose={() => setSelectedProofNode(null)} />

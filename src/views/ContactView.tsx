@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { 
-  Mail, 
-  User, 
-  Building, 
-  FileText, 
-  ArrowRight, 
-  Check, 
+import {
+  Mail,
+  User,
+  Building,
+  FileText,
+  ArrowRight,
+  Check,
   MessageSquare
 } from 'lucide-react';
 
@@ -35,46 +35,46 @@ export const ContactView: React.FC<ContactViewProps> = ({ onOpenPilotModal }) =>
   return (
     <div className="relative pt-24 pb-20 overflow-hidden">
       {/* Background illumination */}
-      <div className="absolute inset-0 grid-bg opacity-50 pointer-events-none" />
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-indigo-600/10 rounded-full blur-[140px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+
+      <div className="page-container relative z-10">
 
         {/* Header */}
-        <div className="max-w-3xl mx-auto text-center pt-8 pb-12 space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-950/70 border border-indigo-500/30 text-indigo-300 text-xs font-medium tracking-wide shadow-inner">
-            <Mail className="w-4 h-4 text-indigo-400" />
-            <span className="uppercase text-[11px] font-mono tracking-wider font-semibold text-indigo-200">
+        <div className="max-w-3xl text-left pt-8 pb-12 space-y-4">
+          <div className="eyebrow">
+            <Mail className="w-4 h-4 text-accent" />
+            <span className=" text-xs font-mono  font-semibold text-accent">
               DIRECT ARCHITECT CONTACT
             </span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight leading-[1.1] text-white">
+          <h1 className="type-display text-ink">
             Connect with Our{' '}
-            <span className="bg-gradient-to-r from-indigo-400 via-sky-300 to-purple-400 bg-clip-text text-transparent">
+            <span className="text-ink text-ink">
               Security Architects
             </span>
           </h1>
 
-          <p className="text-base text-slate-300 leading-relaxed">
+          <p className="text-base text-secondary leading-relaxed">
             Whether evaluating TAG for continuous compliance or deploying Aegis AI OS on sovereign GPU clusters, our cryptographic solutions team is ready to assist.
           </p>
         </div>
 
         {/* Engineering Inquiry Form */}
         <div className="max-w-2xl mx-auto my-8">
-          <div className="rounded-2xl bg-slate-900/90 border border-slate-800 p-6 sm:p-10 shadow-2xl relative">
+          <div className="rounded-card bg-surface border border-line p-6 sm:p-10  relative">
             {submitted ? (
               <div className="text-center py-12 space-y-4">
-                <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 mx-auto flex items-center justify-center border border-emerald-500/30">
+                <div className="w-16 h-16 rounded-md bg-raised text-success mx-auto flex items-center justify-center border border-line">
                   <Check className="w-8 h-8" />
                 </div>
-                <h3 className="text-2xl font-bold text-white">Inquiry Dispatched Successfully</h3>
-                <p className="text-xs sm:text-sm text-slate-300 max-w-md mx-auto leading-relaxed">
-                  Thank you, <strong className="text-white">{formData.firstName}</strong>. We have routed your request regarding <strong className="text-white">{formData.inquiryType}</strong> for <strong className="text-white">{formData.company}</strong> to our primary systems architect.
+                <h3 className="type-card text-ink">Inquiry Dispatched Successfully</h3>
+                <p className="text-sm sm:text-sm text-secondary max-w-md mx-auto leading-relaxed">
+                  Thank you, <strong className="text-ink">{formData.firstName}</strong>. We have routed your request regarding <strong className="text-ink">{formData.inquiryType}</strong> for <strong className="text-ink">{formData.company}</strong> to our primary systems architect.
                 </p>
-                <div className="p-3 bg-slate-950 rounded-xl border border-slate-800 text-xs font-mono text-emerald-400 inline-flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <div className="p-3 bg-inset rounded-card border border-line text-xs font-mono text-success inline-flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-md bg-success " />
                   <span>Ticket Ref: #{ticketId} • Response SLA: &lt; 4 Hours</span>
                 </div>
                 <div className="pt-4">
@@ -90,7 +90,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ onOpenPilotModal }) =>
                         description: '',
                       });
                     }}
-                    className="text-xs text-indigo-400 hover:text-indigo-300 underline cursor-pointer"
+                    className="control text-accent hover:text-accent underline cursor-pointer"
                   >
                     Submit another inquiry
                   </button>
@@ -98,16 +98,16 @@ export const ContactView: React.FC<ContactViewProps> = ({ onOpenPilotModal }) =>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="border-b border-slate-800 pb-4 mb-4">
-                  <h3 className="text-lg font-bold text-white">Send an Engineering Inquiry</h3>
-                  <p className="text-xs text-slate-400">Fill in the specifications below for a direct technical consultation.</p>
+                <div className="border-b border-line pb-4 mb-4">
+                  <h3 className="type-card text-ink">Send an Engineering Inquiry</h3>
+                  <p className="text-sm text-muted">Fill in the specifications below for a direct technical consultation.</p>
                 </div>
 
                 {/* First & Last Name */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1.5 flex items-center gap-1.5">
-                      <User className="w-3.5 h-3.5 text-indigo-400" />
+                    <label className="block text-xs font-semibold text-secondary mb-1.5 flex items-center gap-1.5">
+                      <User className="w-3.5 h-3.5 text-accent" />
                       <span>First Name</span>
                     </label>
                     <input
@@ -116,12 +116,12 @@ export const ContactView: React.FC<ContactViewProps> = ({ onOpenPilotModal }) =>
                       placeholder="Elena"
                       value={formData.firstName}
                       onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                      className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
+                      className="field w-full px-4 py-3 border placeholder-muted transition-colors"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1.5 flex items-center gap-1.5">
-                      <User className="w-3.5 h-3.5 text-indigo-400" />
+                    <label className="block text-xs font-semibold text-secondary mb-1.5 flex items-center gap-1.5">
+                      <User className="w-3.5 h-3.5 text-accent" />
                       <span>Last Name</span>
                     </label>
                     <input
@@ -130,15 +130,15 @@ export const ContactView: React.FC<ContactViewProps> = ({ onOpenPilotModal }) =>
                       placeholder="Rostova"
                       value={formData.lastName}
                       onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                      className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
+                      className="field w-full px-4 py-3 border placeholder-muted transition-colors"
                     />
                   </div>
                 </div>
 
                 {/* Work Email */}
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1.5 flex items-center gap-1.5">
-                    <Mail className="w-3.5 h-3.5 text-indigo-400" />
+                  <label className="block text-xs font-semibold text-secondary mb-1.5 flex items-center gap-1.5">
+                    <Mail className="w-3.5 h-3.5 text-accent" />
                     <span>Work Email</span>
                   </label>
                   <input
@@ -147,14 +147,14 @@ export const ContactView: React.FC<ContactViewProps> = ({ onOpenPilotModal }) =>
                     placeholder="elena@sovereign-ai.eu"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
+                    className="field w-full px-4 py-3 border placeholder-muted transition-colors"
                   />
                 </div>
 
                 {/* Company Name */}
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1.5 flex items-center gap-1.5">
-                    <Building className="w-3.5 h-3.5 text-indigo-400" />
+                  <label className="block text-xs font-semibold text-secondary mb-1.5 flex items-center gap-1.5">
+                    <Building className="w-3.5 h-3.5 text-accent" />
                     <span>Company / Organization Name</span>
                   </label>
                   <input
@@ -163,20 +163,20 @@ export const ContactView: React.FC<ContactViewProps> = ({ onOpenPilotModal }) =>
                     placeholder="EuroHPC AI Cloud Infrastructure"
                     value={formData.company}
                     onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
+                    className="field w-full px-4 py-3 border placeholder-muted transition-colors"
                   />
                 </div>
 
                 {/* Inquiry Type */}
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1.5 flex items-center gap-1.5">
-                    <MessageSquare className="w-3.5 h-3.5 text-indigo-400" />
+                  <label className="block text-xs font-semibold text-secondary mb-1.5 flex items-center gap-1.5">
+                    <MessageSquare className="w-3.5 h-3.5 text-accent" />
                     <span>Inquiry Focus</span>
                   </label>
                   <select
                     value={formData.inquiryType}
                     onChange={(e) => setFormData({ ...formData, inquiryType: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors cursor-pointer"
+                    className="field w-full px-4 py-3 border transition-colors cursor-pointer"
                   >
                     <option value="Enterprise Pilot Evaluation">TAG (Assurance Grid) Enterprise Pilot</option>
                     <option value="Aegis AI OS Cluster Trial">Aegis AI OS Hardened Kernel Trial</option>
@@ -189,8 +189,8 @@ export const ContactView: React.FC<ContactViewProps> = ({ onOpenPilotModal }) =>
 
                 {/* Description */}
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1.5 flex items-center gap-1.5">
-                    <FileText className="w-3.5 h-3.5 text-indigo-400" />
+                  <label className="block text-xs font-semibold text-secondary mb-1.5 flex items-center gap-1.5">
+                    <FileText className="w-3.5 h-3.5 text-accent" />
                     <span>Description & Technical Requirements</span>
                   </label>
                   <textarea
@@ -199,17 +199,17 @@ export const ContactView: React.FC<ContactViewProps> = ({ onOpenPilotModal }) =>
                     placeholder="Describe your GPU infrastructure scale, compliance targets, or sovereign datacenter requirements..."
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors resize-none"
+                    className="field w-full px-4 py-3 border placeholder-muted transition-colors resize-none"
                   />
                 </div>
 
                 <div className="pt-2">
                   <button
                     type="submit"
-                    className="w-full py-3.5 px-4 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs rounded-xl transition-all shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2 group cursor-pointer"
+                    className="control control-primary w-full py-4 px-4  font-semibold transition-colors flex items-center justify-center gap-2 group cursor-pointer"
                   >
                     <span>Transmit Engineering Inquiry</span>
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-4 h-4  transition-transform" />
                   </button>
                 </div>
               </form>

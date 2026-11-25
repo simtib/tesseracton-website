@@ -42,25 +42,25 @@ export const EvidenceChainFlow: React.FC = () => {
   ];
 
   return (
-    <section id="evidence-flow-section" className="py-24 bg-[#090d18] relative border-t border-slate-900 overflow-hidden">
+    <section id="evidence-flow-section" className="py-24 bg-canvas relative border-t border-line overflow-hidden">
       {/* Background ambient accents */}
-      <div className="absolute top-1/2 left-0 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 right-10 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
+
+
+      <div className="page-container relative z-10">
+
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-sky-400 text-xs font-semibold uppercase tracking-wider mb-4 font-mono">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-surface border border-line text-accent text-xs font-semibold   mb-4 font-mono">
             <span>CONTINUOUS EVIDENCE CHAIN</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white mb-4">
+          <h2 className="type-section text-ink mb-4">
             From infrastructure signal <br className="hidden sm:inline" />
-            <span className="bg-gradient-to-r from-sky-400 to-indigo-400 bg-clip-text text-transparent">
+            <span className="text-ink text-ink">
               to regulator-ready proof
             </span>
           </h2>
-          <p className="text-base text-slate-400">
+          <p className="text-base text-muted">
             Tesseracton documents verifiable facts inside high-frequency cryptographic evidence chains.
           </p>
         </div>
@@ -72,22 +72,22 @@ export const EvidenceChainFlow: React.FC = () => {
             return (
               <div
                 key={idx}
-                className="glass-card p-6 rounded-2xl border border-slate-800/90 bg-slate-950/60 flex flex-col justify-between relative group hover:border-slate-700 hover:bg-slate-900/40 transition-all"
+                className="glass-card p-6 rounded-card border border-line bg-inset flex flex-col justify-between relative group hover:border-line hover:bg-surface transition-colors"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-slate-900 text-sky-400 group-hover:bg-sky-500/20 group-hover:text-sky-300 transition-colors">
+                    <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-surface text-accent group-hover:bg-raised group-hover:text-accent transition-colors">
                       <Icon className="w-5 h-5" />
                     </div>
-                    <span className="text-xs font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">
+                    <span className="text-xs font-mono px-2 py-0.5 rounded bg-raised text-secondary font-semibold">
                       0{item.step}
                     </span>
                   </div>
-                  <h4 className="text-base font-bold text-white mb-1 group-hover:text-sky-300 transition-colors">
+                  <h4 className="type-label text-ink mb-1 group-hover:text-accent transition-colors">
                     {item.title}
                   </h4>
-                  <p className="text-xs text-sky-400 font-mono mb-2">{item.subtitle}</p>
-                  <p className="text-xs text-slate-400 leading-relaxed">{item.summary}</p>
+                  <p className="text-sm text-accent font-mono mb-2">{item.subtitle}</p>
+                  <p className="text-sm text-muted leading-relaxed">{item.summary}</p>
                 </div>
               </div>
             );
@@ -96,42 +96,42 @@ export const EvidenceChainFlow: React.FC = () => {
 
         {/* 4 Bottom Micro-Capability Pillar Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="glass-card rounded-xl p-5 border border-slate-800/80">
-            <div className="w-8 h-8 rounded-lg bg-indigo-950/80 text-indigo-400 flex items-center justify-center mb-3">
+          <div className="glass-card rounded-card p-5 border border-line">
+            <div className="w-8 h-8 rounded-lg bg-raised text-accent flex items-center justify-center mb-3">
               <KeyRound className="w-4 h-4" />
             </div>
-            <h4 className="text-sm font-bold text-white mb-1.5">Automated Identity Inventory</h4>
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <h4 className="type-label text-ink mb-1.5">Automated Identity Inventory</h4>
+            <p className="text-sm text-muted leading-relaxed">
               Cryptographic inventory mapping every CPU, GPU, TPM, and DPU across bare-metal and sovereign cloud instances.
             </p>
           </div>
 
-          <div className="glass-card rounded-xl p-5 border border-slate-800/80">
-            <div className="w-8 h-8 rounded-lg bg-sky-950/80 text-sky-400 flex items-center justify-center mb-3">
+          <div className="glass-card rounded-card p-5 border border-line">
+            <div className="w-8 h-8 rounded-lg bg-raised text-accent flex items-center justify-center mb-3">
               <Layers className="w-4 h-4" />
             </div>
-            <h4 className="text-sm font-bold text-white mb-1.5">Immutable Evidence</h4>
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <h4 className="type-label text-ink mb-1.5">Immutable Evidence</h4>
+            <p className="text-sm text-muted leading-relaxed">
               Tamper-evident Merkle ledger with non-repudiation guarantees designed to withstand scrutiny by government auditors.
             </p>
           </div>
 
-          <div className="glass-card rounded-xl p-5 border border-slate-800/80">
-            <div className="w-8 h-8 rounded-lg bg-amber-950/80 text-amber-400 flex items-center justify-center mb-3">
+          <div className="glass-card rounded-card p-5 border border-line">
+            <div className="w-8 h-8 rounded-lg bg-raised text-warning flex items-center justify-center mb-3">
               <Search className="w-4 h-4" />
             </div>
-            <h4 className="text-sm font-bold text-white mb-1.5">Deviation Detection</h4>
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <h4 className="type-label text-ink mb-1.5">Deviation Detection</h4>
+            <p className="text-sm text-muted leading-relaxed">
               Real-time measurement drift analysis detecting unauthorized driver updates, hypervisor tampering, and location migration.
             </p>
           </div>
 
-          <div className="glass-card rounded-xl p-5 border border-slate-800/80">
-            <div className="w-8 h-8 rounded-lg bg-purple-950/80 text-purple-400 flex items-center justify-center mb-3">
+          <div className="glass-card rounded-card p-5 border border-line">
+            <div className="w-8 h-8 rounded-lg bg-raised text-secondary flex items-center justify-center mb-3">
               <Lock className="w-4 h-4" />
             </div>
-            <h4 className="text-sm font-bold text-white mb-1.5">Firmware & Golden State</h4>
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <h4 className="type-label text-ink mb-1.5">Firmware & Golden State</h4>
+            <p className="text-sm text-muted leading-relaxed">
               Enforces silicon-level golden state baselines, locking out untrusted microcode and unauthorized kernel modifications.
             </p>
           </div>

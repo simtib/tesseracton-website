@@ -1,3 +1,4 @@
+import { ProductMasthead } from '../components/ProductArchitecture';
 import Link from 'next/link';
 import React from 'react';
 import { HeroSection } from '../components/HeroSection';
@@ -27,43 +28,11 @@ export const TagProductView: React.FC<TagProductViewProps> = ({
 
   return (
     <div className="relative">
-      {/* Product Banner Bar */}
-      <div className="pt-24 pb-4 bg-gradient-to-r from-indigo-950/40 via-slate-900/60 to-purple-950/40 border-b border-indigo-500/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
-              <ShieldCheck className="w-5 h-5" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-base font-bold text-white tracking-tight">TAG: Tesseracton Assurance Grid</span>
-                <span className="px-2 py-0.5 rounded text-[10px] font-mono uppercase bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-semibold">
-                  Product Core
-                </span>
-              </div>
-              <p className="text-xs text-slate-400">
-                Continuous Hardware-Rooted Attestation & Cryptographic Evidence Chains for Regulated AI Clusters
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <Link
-              href="/aegis-os"
-              className="px-3.5 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white bg-slate-900/80 border border-slate-800 hover:border-slate-700 transition-all flex items-center gap-1.5 group"
-            >
-              <span>Pair with Aegis AI OS</span>
-              <ArrowRight className="w-3.5 h-3.5 text-indigo-400 group-hover:translate-x-0.5 transition-transform" />
-            </Link>
-            <button
-              onClick={handleOpenLiveDashboard}
-              className="px-3.5 py-1.5 rounded-lg text-xs font-medium text-indigo-300 bg-indigo-950/50 border border-indigo-500/30 hover:bg-indigo-900/50 transition-colors"
-            >
-              Jump to Live Nodes
-            </button>
-          </div>
-        </div>
-      </div>
+      <ProductMasthead id="tag">
+        <Link href="/aegis-os" className="control">Pair with Aegis AI OS</Link>
+        <button type="button" className="control" onClick={handleOpenLiveDashboard}>Jump to Live Nodes</button>
+      </ProductMasthead>
+      <p className="page-container text-sm text-muted pt-4">Continuous Hardware-Rooted Attestation &amp; Cryptographic Evidence Chains for Regulated AI Clusters</p>
 
       {/* Main Existing Landing Page Content */}
       <div>

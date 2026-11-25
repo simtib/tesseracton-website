@@ -1,4 +1,4 @@
-export type NavigationTab = 'home' | 'tag' | 'aegis-os' | 'services' | 'company' | 'contact';
+export type NavigationTab = 'home' | 'infrastructure-intelligence' | 'ai-trust-fabric' | 'tag' | 'aegis-os' | 'services' | 'company' | 'contact';
 
 export type AttestationStatus = 'VERIFIED' | 'DRIFT_DETECTED' | 'COMPROMISED' | 'ATTESTING';
 

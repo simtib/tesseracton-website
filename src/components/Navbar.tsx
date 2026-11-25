@@ -1,6 +1,8 @@
+import { BrandMark } from './BrandMark';
 import Link from 'next/link';
+import { products } from '../data/products';
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronDown, ArrowRight, Menu, X, ShieldCheck, Cpu, Layers } from 'lucide-react';
+import { ChevronDown, ArrowRight, Menu, X, ShieldCheck, Cpu } from 'lucide-react';
 import { NavigationTab } from '../types';
 
 interface NavbarProps {
@@ -15,6 +17,11 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [scrolled, setScrolled] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const productsButtonRef = useRef<HTMLButtonElement>(null);
+  const mobileButtonRef = useRef<HTMLButtonElement>(null);
+  const navRef = useRef<HTMLElement>(null);
+  const activeClass = 'bg-raised text-ink border border-control-line';
+  const inactiveClass = 'border border-transparent text-secondary hover:text-ink hover:bg-raised';
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -34,7 +41,19 @@ export const Navbar: React.FC<NavbarProps> = ({
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    const handleResize = () => {
+      setProductsOpen(false);
+      setMobileMenuOpen(false);
+      const focused = document.activeElement;
+      if (focused instanceof HTMLElement && navRef.current?.contains(focused) && !focused.getClientRects().length) {
+        navRef.current.querySelector<HTMLElement>('#brand-logo')?.focus();
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   const closeMenus = () => {
@@ -42,133 +61,105 @@ export const Navbar: React.FC<NavbarProps> = ({
     setMobileMenuOpen(false);
   };
 
-  const isProductActive = activeTab === 'tag' || activeTab === 'aegis-os';
+  const isProductActive = products.some(product => product.id === activeTab);
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      ref={navRef}
+      aria-label="Main navigation"
+      onBlur={event => {
+        if (!event.currentTarget.contains(event.relatedTarget)) closeMenus();
+      }}
+      onKeyDown={event => {
+        if (event.key === 'Escape' && (productsOpen || mobileMenuOpen)) {
+          event.preventDefault();
+          if (productsOpen) productsButtonRef.current?.focus();
+          else mobileButtonRef.current?.focus();
+          closeMenus();
+        }
+      }}
+      className={`phase-one fixed top-0 left-0 right-0 z-50 transition-colors duration-150 ${
         scrolled
-          ? 'bg-[#07090e]/95 border-b border-slate-800/80 backdrop-blur-xl py-3 shadow-2xl shadow-slate-950/70'
-          : 'bg-[#07090e]/80 border-b border-slate-800/40 backdrop-blur-md py-4'
+          ? 'bg-canvas border-b border-line  py-3  '
+          : 'bg-canvas border-b border-line  py-4'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        
+      <div className="page-container flex items-center justify-between">
+
         {/* Brand Logo - Matched to User's Screenshot */}
         <Link
           href="/" onNavigate={closeMenus}
           className="flex items-center gap-3 cursor-pointer group"
           id="brand-logo"
         >
-          {/* Logo Icon with 3 stacked layers gradient */}
-          <div className="relative w-9 h-9 flex items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 via-indigo-600 to-sky-500 p-0.5 shadow-lg shadow-indigo-500/25 group-hover:shadow-indigo-500/40 transition-all">
-            <div className="w-full h-full bg-[#0a0f1d] rounded-[10px] flex items-center justify-center">
-              <svg viewBox="0 0 24 24" className="w-5 h-5 text-sky-400 group-hover:scale-105 transition-transform" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 2L2 7L12 12L22 7L12 2Z" />
-                <path d="M2 17L12 22L22 17" />
-                <path d="M2 12L12 17L22 12" />
-              </svg>
-            </div>
-          </div>
-          <span className="text-xl font-bold tracking-tight text-white font-sans">
-            Tesseracton
-          </span>
+          <BrandMark /><span className="brand-name">Tesseracton</span>
         </Link>
 
         {/* Desktop Navigation Links */}
         <div className="hidden lg:flex items-center gap-1.5 xl:gap-2 text-sm font-medium">
-          
+
           {/* Home Tab - Pill style when active (exact match to screenshot) */}
           <Link
-            href="/" onNavigate={closeMenus}
-            className={`px-4 py-2 rounded-lg transition-all text-sm font-semibold ${
+            href="/" aria-current={activeTab === 'home' ? 'page' : undefined} onNavigate={closeMenus}
+            className={`px-4 py-2 rounded-lg transition-colors text-sm font-semibold ${
               activeTab === 'home'
-                ? 'bg-slate-800/90 text-white shadow-sm border border-slate-700/60'
-                : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
+                ? activeClass : inactiveClass
             }`}
           >
             Home
           </Link>
 
           {/* Products Dropdown */}
-          <div className="relative" ref={dropdownRef}>
+          <div className="relative" ref={dropdownRef} onBlur={event => {
+            if (!event.currentTarget.contains(event.relatedTarget)) setProductsOpen(false);
+          }}>
             <button
               onClick={() => setProductsOpen(!productsOpen)}
-              onMouseEnter={() => setProductsOpen(true)}
-              className={`px-3.5 py-2 rounded-lg transition-all flex items-center gap-1.5 text-sm font-medium ${
+              ref={productsButtonRef}
+              aria-expanded={productsOpen}
+              aria-controls="products-navigation"
+              onKeyDown={event => {
+                if (event.key === 'ArrowDown') {
+                  event.preventDefault();
+                  setProductsOpen(true);
+                  requestAnimationFrame(() => dropdownRef.current?.querySelector<HTMLAnchorElement>('a')?.focus());
+                }
+              }}
+              className={`px-4 py-2 rounded-lg transition-colors flex items-center gap-1.5 text-sm font-medium ${
                 isProductActive
-                  ? 'bg-indigo-950/60 text-indigo-300 border border-indigo-500/30'
-                  : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
+                  ? activeClass : inactiveClass
               }`}
             >
               <span>Products</span>
-              <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${productsOpen ? 'rotate-180 text-white' : 'text-slate-400'}`} />
+              <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-150 ${productsOpen ? 'rotate-180 text-ink' : 'text-muted'}`} />
             </button>
 
             {/* Dropdown Menu */}
             {productsOpen && (
               <div
-                onMouseLeave={() => setProductsOpen(false)}
-                className="absolute top-full left-0 mt-2 w-72 rounded-2xl bg-slate-900/95 border border-slate-800 p-2 shadow-2xl backdrop-blur-xl animate-in fade-in slide-in-from-top-2 duration-150 z-50"
+                id="products-navigation"
+                className="absolute top-full left-0 mt-2 w-[480px] max-h-[calc(100dvh-6rem)] overflow-y-auto rounded-card bg-surface border border-line p-2   animate-in fade-in slide-in-from-top-2 duration-150 z-50"
               >
-                {/* Option 1: TAG */}
-                <Link
-                  href="/tag" onNavigate={closeMenus}
-                  className={`w-full p-3 rounded-xl text-left transition-all flex items-start gap-3 group cursor-pointer ${
-                    activeTab === 'tag'
-                      ? 'bg-indigo-950/70 border border-indigo-500/40 text-white'
-                      : 'hover:bg-slate-800/80 text-slate-200'
-                  }`}
-                >
-                  <div className="w-9 h-9 rounded-lg bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 flex-shrink-0 group-hover:scale-105 transition-transform mt-0.5">
-                    <ShieldCheck className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-sm font-bold text-white group-hover:text-indigo-300 transition-colors">TAG</span>
-                      <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Grid</span>
+                {products.map(product => (
+                  <Link key={product.id} href={product.href} aria-label={product.name} aria-current={activeTab === product.id ? 'page' : undefined} onNavigate={closeMenus}
+                    className={`w-full p-3 rounded-card text-left transition-colors flex items-start gap-3 group ${activeTab === product.id ? activeClass : inactiveClass}`}>
+                    <span className="text-xs font-mono text-muted mt-1">0{products.indexOf(product)+1}</span>
+                    <div className="min-w-0">
+                      <span className="text-sm font-semibold text-ink">{product.name}</span>
+                      <p className="text-sm text-secondary mt-1 leading-relaxed">{product.layer} / {product.status}</p>
                     </div>
-                    <p className="text-[11px] text-slate-400 mt-0.5 leading-snug">
-                      Hardware-rooted attestation, golden PCR matching & evidence chains for GPU clouds.
-                    </p>
-                  </div>
-                </Link>
-
-                <div className="my-1 border-t border-slate-800/80" />
-
-                {/* Option 2: Aegis AI OS */}
-                <Link
-                  href="/aegis-os" onNavigate={closeMenus}
-                  className={`w-full p-3 rounded-xl text-left transition-all flex items-start gap-3 group cursor-pointer ${
-                    activeTab === 'aegis-os'
-                      ? 'bg-sky-950/70 border border-sky-500/40 text-white'
-                      : 'hover:bg-slate-800/80 text-slate-200'
-                  }`}
-                >
-                  <div className="w-9 h-9 rounded-lg bg-sky-600/20 border border-sky-500/30 flex items-center justify-center text-sky-400 flex-shrink-0 group-hover:scale-105 transition-transform mt-0.5">
-                    <Cpu className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-sm font-bold text-white group-hover:text-sky-300 transition-colors">Aegis AI OS</span>
-                      <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30">Enclave OS</span>
-                    </div>
-                    <p className="text-[11px] text-slate-400 mt-0.5 leading-snug">
-                      Hardened microkernel, encrypted GPU weight vault & zero-egress sandboxing.
-                    </p>
-                  </div>
-                </Link>
+                  </Link>
+                ))}
               </div>
             )}
           </div>
 
           {/* Services Tab */}
           <Link
-            href="/services" onNavigate={closeMenus}
-            className={`px-3.5 py-2 rounded-lg transition-all text-sm font-medium ${
+            href="/services" aria-current={activeTab === 'services' ? 'page' : undefined} onNavigate={closeMenus}
+            className={`px-4 py-2 rounded-lg transition-colors text-sm font-medium ${
               activeTab === 'services'
-                ? 'bg-slate-800/90 text-white shadow-sm border border-slate-700/60'
-                : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
+                ? activeClass : inactiveClass
             }`}
           >
             Services
@@ -176,11 +167,10 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* Company Tab */}
           <Link
-            href="/company" onNavigate={closeMenus}
-            className={`px-3.5 py-2 rounded-lg transition-all text-sm font-medium ${
+            href="/company" aria-current={activeTab === 'company' ? 'page' : undefined} onNavigate={closeMenus}
+            className={`px-4 py-2 rounded-lg transition-colors text-sm font-medium ${
               activeTab === 'company'
-                ? 'bg-slate-800/90 text-white shadow-sm border border-slate-700/60'
-                : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
+                ? activeClass : inactiveClass
             }`}
           >
             Company
@@ -188,11 +178,10 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* Contact Us Tab */}
           <Link
-            href="/contact" onNavigate={closeMenus}
-            className={`px-3.5 py-2 rounded-lg transition-all text-sm font-medium ${
+            href="/contact" aria-current={activeTab === 'contact' ? 'page' : undefined} onNavigate={closeMenus}
+            className={`px-4 py-2 rounded-lg transition-colors text-sm font-medium ${
               activeTab === 'contact'
-                ? 'bg-slate-800/90 text-white shadow-sm border border-slate-700/60'
-                : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
+                ? activeClass : inactiveClass
             }`}
           >
             Contact Us
@@ -200,28 +189,31 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
 
         {/* CTA Buttons */}
-        <div className="hidden sm:flex items-center gap-3">
+        <div className="hidden lg:flex items-center gap-3">
           <button
             onClick={onOpenPilotModal}
-            className="px-4 py-2 text-xs font-semibold text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 border border-indigo-400/40 rounded-lg transition-all flex items-center gap-1.5 shadow-lg shadow-indigo-600/25 hover:shadow-indigo-600/40 group cursor-pointer"
+            className="control px-4 py-2 font-semibold text-ink bg-surface border border-line transition-colors flex items-center gap-1.5 group cursor-pointer"
           >
             <span>Request a Pilot</span>
-            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+            <ArrowRight className="w-3.5 h-3.5  transition-transform" />
           </button>
         </div>
 
         {/* Mobile Hamburger Toggle */}
         <div className="lg:hidden flex items-center gap-2">
           <button
-            onClick={onOpenPilotModal}
-            className="px-3 py-1.5 text-xs font-semibold text-white bg-indigo-600 rounded-lg"
+            onClick={() => { closeMenus(); onOpenPilotModal(); }}
+            className="control control-primary min-h-11 px-3 py-1.5 font-semibold "
           >
             Pilot
           </button>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 text-slate-400 hover:text-white rounded-lg bg-slate-900 border border-slate-800"
+            className="control min-h-11 min-w-11 p-2 text-muted hover:text-ink bg-surface border border-line"
+            ref={mobileButtonRef}
             aria-label="Toggle menu"
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-navigation"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -230,12 +222,12 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-b border-slate-800 bg-[#090d18] px-4 pt-3 pb-6 space-y-3 shadow-2xl animate-in slide-in-from-top-4 duration-200">
+        <div id="mobile-navigation" className="max-h-[calc(100dvh-5rem)] overflow-y-auto lg:hidden border-b border-line bg-canvas px-4 pt-3 pb-6 space-y-3  animate-in slide-in-from-top-4 duration-150">
           <div className="flex flex-col space-y-1">
             <Link
-              href="/" onNavigate={closeMenus}
+              href="/" aria-current={activeTab === 'home' ? 'page' : undefined} onNavigate={closeMenus}
               className={`text-left px-3 py-2 rounded-lg text-sm font-medium ${
-                activeTab === 'home' ? 'bg-slate-800 text-white font-bold' : 'text-slate-300 hover:bg-slate-800/60'
+                activeTab === 'home' ? activeClass : inactiveClass
               }`}
             >
               Home
@@ -243,68 +235,47 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* Products Group on Mobile */}
             <div className="pt-1 pb-1">
-              <span className="px-3 text-[11px] font-mono uppercase text-slate-500 font-semibold tracking-wider">Products</span>
+              <span className="px-3 text-xs font-mono  text-muted font-semibold ">Products</span>
               <div className="mt-1 pl-2 space-y-1">
-                <Link
-                  href="/tag" onNavigate={closeMenus}
-                  className={`w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2 ${
-                    activeTab === 'tag' ? 'bg-indigo-950/80 text-indigo-300 font-semibold border border-indigo-500/40' : 'text-slate-300 hover:bg-slate-800/60'
-                  }`}
-                >
-                  <ShieldCheck className="w-4 h-4 text-indigo-400" />
-                  <span>TAG (Assurance Grid)</span>
-                </Link>
-                <Link
-                  href="/aegis-os" onNavigate={closeMenus}
-                  className={`w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2 ${
-                    activeTab === 'aegis-os' ? 'bg-sky-950/80 text-sky-300 font-semibold border border-sky-500/40' : 'text-slate-300 hover:bg-slate-800/60'
-                  }`}
-                >
-                  <Cpu className="w-4 h-4 text-sky-400" />
-                  <span>Aegis AI OS</span>
-                </Link>
+                {products.map(product => (
+                  <Link key={product.id} href={product.href} aria-label={product.name} aria-current={activeTab === product.id ? 'page' : undefined} onNavigate={closeMenus}
+                    className={`w-full text-left px-3 py-2 rounded-lg text-sm flex items-start gap-2 ${activeTab === product.id ? activeClass : inactiveClass}`}>
+                    <ShieldCheck className="w-4 h-4 text-accent shrink-0 mt-1" />
+                    <span>{product.name}<span className="block text-xs text-secondary">{product.status}</span></span>
+                  </Link>
+                ))}
               </div>
             </div>
 
             <Link
-              href="/services" onNavigate={closeMenus}
+              href="/services" aria-current={activeTab === 'services' ? 'page' : undefined} onNavigate={closeMenus}
               className={`text-left px-3 py-2 rounded-lg text-sm font-medium ${
-                activeTab === 'services' ? 'bg-slate-800 text-white font-bold' : 'text-slate-300 hover:bg-slate-800/60'
+                activeTab === 'services' ? activeClass : inactiveClass
               }`}
             >
               Services
             </Link>
 
             <Link
-              href="/company" onNavigate={closeMenus}
+              href="/company" aria-current={activeTab === 'company' ? 'page' : undefined} onNavigate={closeMenus}
               className={`text-left px-3 py-2 rounded-lg text-sm font-medium ${
-                activeTab === 'company' ? 'bg-slate-800 text-white font-bold' : 'text-slate-300 hover:bg-slate-800/60'
+                activeTab === 'company' ? activeClass : inactiveClass
               }`}
             >
               Company
             </Link>
 
             <Link
-              href="/contact" onNavigate={closeMenus}
+              href="/contact" aria-current={activeTab === 'contact' ? 'page' : undefined} onNavigate={closeMenus}
               className={`text-left px-3 py-2 rounded-lg text-sm font-medium ${
-                activeTab === 'contact' ? 'bg-slate-800 text-white font-bold' : 'text-slate-300 hover:bg-slate-800/60'
+                activeTab === 'contact' ? activeClass : inactiveClass
               }`}
             >
               Contact Us
             </Link>
           </div>
 
-          <div className="pt-2 border-t border-slate-800 flex flex-col gap-2">
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onOpenPilotModal();
-              }}
-              className="w-full py-2.5 text-center text-xs font-semibold text-white bg-indigo-600 rounded-lg"
-            >
-              Request a Pilot
-            </button>
-          </div>
+
         </div>
       )}
     </nav>

@@ -7,7 +7,7 @@ export const siteUrl = new URL(process.env.SITE_URL || 'http://localhost:3003');
 export const pageDetails: Record<NavigationTab, { title: string; description: string }> = {
   home: {
     title: 'Tesseracton - Regulated Compute & Infrastructure Compliance',
-    description: 'Continuous cryptographic verification, hardware attestation, and policy compliance for regulated AI infrastructure and confidential compute.',
+    description: 'Explore four independent products for AI infrastructure operations, asset intelligence, hardware assurance, and AI execution governance.',
   },
   tag: {
     title: 'TAG — Assurance Grid',
@@ -17,6 +17,8 @@ export const pageDetails: Record<NavigationTab, { title: string; description: st
     title: 'Aegis AI OS — Confidential AI Runtime',
     description: 'Protect sensitive AI models with a hardened kernel, encrypted GPU weight vault, confidential execution, and silicon-enforced zero-egress networking.',
   },
+  'infrastructure-intelligence': { title: 'AI Infrastructure Intelligence Platform', description: 'Product specification overview for vendor-neutral discovery, inventory, configuration drift, firmware monitoring, and infrastructure lifecycle visibility.' },
+  'ai-trust-fabric': { title: 'TAG AI Trust Fabric', description: 'Concept overview for AI execution governance connecting verified infrastructure to approved models, datasets, identities, policies, and execution evidence.' },
   services: {
     title: 'Professional Services',
     description: 'Deploy sovereign AI infrastructure with Tesseracton: air-gapped deployments, custom PCR baseline audits, and infrastructure compliance services.',

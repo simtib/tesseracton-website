@@ -8,7 +8,7 @@ await mkdir(`.design-checks/${phase}`, { recursive: true });
 const results = {};
 for (const width of [1440, 390]) {
   const page = await browser.newPage({ viewport: { width, height: 900 }, reducedMotion: 'reduce' });
-  for (const route of ['home', 'tag', 'aegis-os', 'services', 'company', 'contact']) {
+  for (const route of ['home', 'tag', 'aegis-os', 'services', 'company', 'contact', 'infrastructure-intelligence', 'ai-trust-fabric']) {
     await page.goto(`${baseURL}${phase === 'before' ? `/#${route}` : route === 'home' ? '/' : `/${route}`}`);
     await page.waitForLoadState('networkidle');
     await page.evaluate(() => document.fonts.ready);

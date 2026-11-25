@@ -6,10 +6,10 @@ export const contentType = 'image/png';
 
 export default function OpenGraphImage() {
   return new ImageResponse(
-    <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: 80, background: '#07090e', color: '#f1f5f9', fontFamily: 'sans-serif' }}>
-      <div style={{ color: '#818cf8', fontSize: 30, marginBottom: 36 }}>Tesseracton</div>
-      <div style={{ fontSize: 66, fontWeight: 700, lineHeight: 1.15 }}>The Trust Fabric for Sovereign &amp; Regulated AI</div>
-      <div style={{ color: '#94a3b8', fontSize: 26, marginTop: 40 }}>TAG Assurance Grid · Aegis AI OS</div>
+    <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: 80, background: '#131617', color: '#f2f0e9', fontFamily: 'sans-serif' }}>
+      <div style={{ color: '#edb65b', fontSize: 30, marginBottom: 36 }}>Tesseracton</div>
+      <div style={{ fontSize: 66, fontWeight: 500, lineHeight: 1.15 }}>The Trust Fabric for Sovereign &amp; Regulated AI</div>
+      <div style={{ color: '#a0aaaa', fontSize: 21, marginTop: 40 }}>Aegis AI OS / Infrastructure Intelligence / TAG / AI Trust Fabric</div>
     </div>,
     size,
   );

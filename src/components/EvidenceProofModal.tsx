@@ -1,21 +1,28 @@
 import React, { useState } from 'react';
+import { AccessibleDialog } from './AccessibleDialog';
 import { HardwareNode } from '../types';
-import { X, ShieldCheck, Download, Copy, Check, FileCheck, Key, Lock, Globe2, QrCode } from 'lucide-react';
+import { X, Download, Copy, Check, FileCheck } from 'lucide-react';
 
 interface EvidenceProofModalProps {
   node: HardwareNode | null;
   onClose: () => void;
 }
 
-export const EvidenceProofModal: React.FC<EvidenceProofModalProps> = ({ node, onClose }) => {
-  const [copied, setCopied] = useState(false);
+export const EvidenceProofModal: React.FC<EvidenceProofModalProps> = ({ node, onClose }) =>
+  node ? <EvidenceDetails key={node.id} node={node} onClose={onClose} /> : null;
 
-  if (!node) return null;
+function EvidenceDetails({ node, onClose }: { node: HardwareNode; onClose: () => void }) {
+  const [copyState, setCopyState] = useState<'idle' | 'pending' | 'success' | 'error'>('idle');
+  const [capturedAt] = useState(() => new Date().toISOString());
+  const verified = node.status === 'VERIFIED';
+  const statusLabel = node.status === 'VERIFIED' ? 'Verified' : node.status === 'DRIFT_DETECTED' ? 'Drift detected' : node.status.replaceAll('_', ' ').toLowerCase();
 
   const rawAttestationPayload = {
+    simulation: true,
+    notice: 'Illustrative sample only. No hardware verification or cryptographic signing was performed.',
     attestation_version: '2.6.0',
     certificate_id: `CERT-TESS-${node.id.toUpperCase()}-2026`,
-    timestamp_utc: new Date().toISOString(),
+    timestamp_utc: capturedAt,
     node_metadata: {
       hostname: node.name,
       cluster_identifier: node.cluster,
@@ -45,114 +52,80 @@ export const EvidenceProofModal: React.FC<EvidenceProofModalProps> = ({ node, on
     },
   };
 
-  const handleCopyJson = () => {
-    navigator.clipboard.writeText(JSON.stringify(rawAttestationPayload, null, 2));
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const handleCopyJson = async () => {
+    setCopyState('pending');
+    try {
+      await navigator.clipboard.writeText(JSON.stringify(rawAttestationPayload, null, 2));
+      setCopyState('success');
+    } catch {
+      setCopyState('error');
+    }
   };
 
   const handleDownloadProof = () => {
     const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(rawAttestationPayload, null, 2));
     const downloadAnchor = document.createElement('a');
     downloadAnchor.setAttribute('href', dataStr);
-    downloadAnchor.setAttribute('download', `tesseracton-proof-${node.name}.json`);
+    downloadAnchor.setAttribute('download', `tesseracton-demo-proof-${node.name}.json`);
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     downloadAnchor.remove();
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="relative w-full max-w-3xl bg-[#090d18] border border-slate-700 rounded-2xl shadow-2xl overflow-hidden max-h-[92vh] flex flex-col">
-        
-        {/* Modal Header */}
-        <div className="p-5 sm:p-6 border-b border-slate-800 flex items-center justify-between bg-slate-950/80">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-sky-500/20 border border-sky-500/40 flex items-center justify-center text-sky-400">
-              <FileCheck className="w-5 h-5" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h3 className="text-base sm:text-lg font-bold text-white">Cryptographic Proof & Merkle Receipt</h3>
-                <span className="px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-500/40 text-[10px] font-mono font-bold">
-                  VERIFIED
-                </span>
-              </div>
-              <p className="text-xs text-slate-400 font-mono">Node: {node.name} | Evidence: {node.evidenceId}</p>
-            </div>
-          </div>
-          <button
-            onClick={onClose}
-            className="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors"
-          >
-            <X className="w-5 h-5" />
-          </button>
+    <AccessibleDialog titleId="evidence-title" descriptionId="evidence-description" onClose={onClose} wide>
+      <div className="p-4 sm:p-6 border-b border-line flex items-start justify-between gap-4 bg-inset">
+        <div className="min-w-0">
+          <h3 id="evidence-title" data-dialog-heading tabIndex={-1} className="type-card text-ink flex items-center gap-2">
+            <FileCheck aria-hidden="true" className="w-5 h-5 shrink-0 text-accent" />
+            Evidence preview
+          </h3>
+          <p id="evidence-description" className="text-sm text-secondary mt-2">Simulated data, not a signed certificate or proof of compliance.</p>
         </div>
-
-        {/* Modal Body */}
-        <div className="p-6 overflow-y-auto custom-scrollbar flex-1 space-y-5 text-xs">
-          
-          {/* Certificate Summary Card */}
-          <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div>
-              <span className="text-slate-400 text-[10px] font-mono block uppercase">Physical Facility</span>
-              <span className="text-slate-200 font-medium">{node.facility}</span>
-            </div>
-            <div>
-              <span className="text-slate-400 text-[10px] font-mono block uppercase">Silicon PUF ID</span>
-              <span className="text-indigo-400 font-mono font-bold">{node.siliconPufId}</span>
-            </div>
-            <div>
-              <span className="text-slate-400 text-[10px] font-mono block uppercase">Attestation Oracle</span>
-              <span className="text-emerald-400 font-mono font-bold">ECDSA-P384 Verified</span>
-            </div>
-          </div>
-
-          {/* Raw JSON Code Block */}
-          <div>
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-mono text-slate-400 font-semibold uppercase">
-                Raw Signed Proof Object (RFC 9334 RATS Architecture)
-              </span>
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={handleCopyJson}
-                  className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px] font-mono flex items-center gap-1.5 transition-colors cursor-pointer"
-                >
-                  {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-                  <span>{copied ? 'Copied' : 'Copy JSON'}</span>
-                </button>
-                <button
-                  onClick={handleDownloadProof}
-                  className="px-2.5 py-1 rounded bg-indigo-600 hover:bg-indigo-500 text-white text-[11px] font-mono flex items-center gap-1.5 transition-colors cursor-pointer"
-                >
-                  <Download className="w-3.5 h-3.5" />
-                  <span>Download .JSON</span>
-                </button>
-              </div>
-            </div>
-
-            <div className="bg-[#05070b] border border-slate-800 rounded-xl p-4 font-mono text-xs text-sky-300/90 max-h-72 overflow-y-auto custom-scrollbar">
-              <pre className="leading-relaxed whitespace-pre-wrap">
-                {JSON.stringify(rawAttestationPayload, null, 2)}
-              </pre>
-            </div>
-          </div>
-
-        </div>
-
-        {/* Modal Footer */}
-        <div className="p-4 border-t border-slate-800 bg-slate-950/60 flex items-center justify-between text-xs font-mono text-slate-400">
-          <span>Non-repudiation Hash: <strong className="text-slate-200">SHA-384 Merkle Root Anchor</strong></span>
-          <button
-            onClick={onClose}
-            className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs"
-          >
-            Close Inspector
-          </button>
-        </div>
-
+        <button type="button" onClick={onClose} aria-label="Close evidence dialog" className="control min-h-11 min-w-11 flex items-center justify-center shrink-0 text-secondary hover:bg-raised">
+          <X aria-hidden="true" className="w-5 h-5" />
+        </button>
       </div>
-    </div>
+
+      <div className="p-4 sm:p-6 overflow-y-auto custom-scrollbar flex-1 min-h-0 space-y-6 text-sm">
+        <section aria-labelledby="evidence-summary" className="p-4 rounded-card bg-surface border border-line space-y-4">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h4 id="evidence-summary" className="type-label text-ink">Node summary</h4>
+            <span className={`px-3 py-1 rounded-lg border ${verified ? 'text-success border-line bg-raised' : 'text-warning border-line bg-raised'}`}>Demo status: {statusLabel}</span>
+          </div>
+          <p className="text-secondary">{verified
+            ? 'This sample node is marked verified in the demo. No live hardware check has been performed.'
+            : node.driftDescription || 'This sample node is not marked verified. Review its demo measurements below.'}</p>
+          <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div><dt className="text-muted">Node</dt><dd className="font-mono break-all mt-1">{node.name}</dd></div>
+            <div><dt className="text-muted">Facility</dt><dd className="mt-1">{node.facility}</dd></div>
+            <div><dt className="text-muted">Hardware</dt><dd className="mt-1">{node.accelerator}</dd></div>
+            <div><dt className="text-muted">Evidence ID</dt><dd className="font-mono break-all mt-1">{node.evidenceId}</dd></div>
+          </dl>
+        </section>
+
+        <section aria-labelledby="evidence-json-heading" className="space-y-3">
+          <h4 id="evidence-json-heading" className="type-label text-ink">Sample JSON</h4>
+          <p className="text-secondary">Verification and framework fields below illustrate the sample format; they are not independently verified results.</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <button type="button" onClick={handleCopyJson} disabled={copyState === 'pending'} className="control min-h-11 px-4 py-3 bg-raised hover:bg-selected disabled:opacity-60 text-ink flex items-center justify-center gap-2 transition-colors">
+              {copyState === 'success' ? <Check aria-hidden="true" className="w-4 h-4" /> : <Copy aria-hidden="true" className="w-4 h-4" />}
+              {copyState === 'pending' ? 'Copying...' : copyState === 'success' ? 'Copied' : 'Copy JSON'}
+            </button>
+            <button type="button" onClick={handleDownloadProof} className="control control-primary min-h-11 px-4 py-3  flex items-center justify-center gap-2 transition-colors">
+              <Download aria-hidden="true" className="w-4 h-4" />Download sample JSON
+            </button>
+          </div>
+          <p role="status" className="text-secondary">{copyState === 'success' ? 'Sample JSON copied to clipboard.' : ''}</p>
+          {copyState === 'error' && <p role="alert" className="text-warning">Could not copy to clipboard. Try again, download the sample, or select the JSON below.</p>}
+          <pre tabIndex={0} aria-label="Sample evidence JSON" className="bg-canvas border border-line rounded-card p-4 font-mono text-sm text-accent max-h-72 overflow-auto whitespace-pre-wrap break-all leading-relaxed">{JSON.stringify(rawAttestationPayload, null, 2)}</pre>
+        </section>
+      </div>
+
+      <div className="p-4 border-t border-line bg-inset flex flex-wrap items-center justify-between gap-3 text-sm text-secondary">
+        <span>For demonstration only</span>
+        <button type="button" onClick={onClose} className="control min-h-11 px-4 py-2 bg-raised hover:bg-selected text-ink font-medium">Close Inspector</button>
+      </div>
+    </AccessibleDialog>
   );
-};
+}

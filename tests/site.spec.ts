@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-const paths = ['/', '/tag', '/aegis-os', '/services', '/company', '/contact'];
+const paths = ['/', '/tag', '/aegis-os', '/services', '/company', '/contact', '/infrastructure-intelligence', '/ai-trust-fabric'];
 
 for (const path of paths) {
   test(`${path} renders its content and SEO without JavaScript`, async ({ browser, request }) => {
@@ -61,7 +61,7 @@ test('mobile navigation closes after selecting a route', async ({ page }) => {
 
 test('dashboard filtering and product profiles remain interactive', async ({ page }) => {
   await page.goto('/tag');
-  const filter = page.getByPlaceholder('Filter by node, GPU, or hash...');
+  const filter = page.getByRole('textbox', { name: 'Search sample nodes' });
   await filter.fill('no-matching-node');
   await expect(page.locator('tbody tr').filter({ hasText: 'H100' })).toHaveCount(0);
   await filter.fill('');

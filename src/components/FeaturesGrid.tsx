@@ -19,8 +19,8 @@ export const FeaturesGrid: React.FC = () => {
     {
       id: 'feature-attestation',
       icon: ShieldCheck,
-      color: 'text-sky-400',
-      borderColor: 'border-sky-500/30',
+      color: 'text-accent',
+      borderColor: 'border-line',
       title: 'Real-Time Cryptographic Attestation',
       description:
         'Continuous hardware-rooted attestation across TPM 2.0, AMD SEV-SNP, Intel TDX, and NVIDIA Confidential Computing.',
@@ -30,8 +30,8 @@ export const FeaturesGrid: React.FC = () => {
     {
       id: 'feature-drift',
       icon: RefreshCw,
-      color: 'text-indigo-400',
-      borderColor: 'border-indigo-500/30',
+      color: 'text-accent',
+      borderColor: 'border-line',
       title: 'Drift & Baseline Management',
       description:
         'Immediate detection of boot parameter deviations, kernel module changes, or unapproved microcode revisions.',
@@ -41,8 +41,8 @@ export const FeaturesGrid: React.FC = () => {
     {
       id: 'feature-decisions',
       icon: GitBranch,
-      color: 'text-emerald-400',
-      borderColor: 'border-emerald-500/30',
+      color: 'text-success',
+      borderColor: 'border-line',
       title: 'Compliance Decisions & Gateways',
       description:
         'Automated zero-trust admission controllers that cordon untrusted compute nodes before models or weights are scheduled.',
@@ -52,8 +52,8 @@ export const FeaturesGrid: React.FC = () => {
     {
       id: 'feature-alerting',
       icon: BellRing,
-      color: 'text-amber-400',
-      borderColor: 'border-amber-500/30',
+      color: 'text-warning',
+      borderColor: 'border-line',
       title: 'Alerting and SIEM Monitoring',
       description:
         'Granular telemetry streaming to Splunk, Datadog, AWS Security Hub, and dedicated regulator auditor channels.',
@@ -63,8 +63,8 @@ export const FeaturesGrid: React.FC = () => {
     {
       id: 'feature-policy',
       icon: CheckSquare,
-      color: 'text-purple-400',
-      borderColor: 'border-purple-500/30',
+      color: 'text-secondary',
+      borderColor: 'border-line',
       title: 'Policy Verifications',
       description:
         'Turnkey policy templates mapped to the EU AI Act (Articles 53 & 55), NIST AI RMF, ISO 42001, and US Export Controls.',
@@ -74,8 +74,8 @@ export const FeaturesGrid: React.FC = () => {
     {
       id: 'feature-identity',
       icon: Fingerprint,
-      color: 'text-cyan-400',
-      borderColor: 'border-cyan-500/30',
+      color: 'text-accent',
+      borderColor: 'border-line',
       title: 'Confidential Identity',
       description:
         'Binds silicon Physical Unclonable Function (PUF) certificates to SPIFFE/SPIRE workload identities.',
@@ -85,8 +85,8 @@ export const FeaturesGrid: React.FC = () => {
     {
       id: 'feature-evidence',
       icon: FileCheck,
-      color: 'text-blue-400',
-      borderColor: 'border-blue-500/30',
+      color: 'text-accent',
+      borderColor: 'border-line',
       title: 'Verifiable Evidence State',
       description:
         'Immutable cryptographic evidence chain anchored in a verifiable Merkle tree ledger for instant audit clearance.',
@@ -96,8 +96,8 @@ export const FeaturesGrid: React.FC = () => {
     {
       id: 'feature-firmware',
       icon: HardDrive,
-      color: 'text-rose-400',
-      borderColor: 'border-rose-500/30',
+      color: 'text-danger',
+      borderColor: 'border-line',
       title: 'Firmware & Microcode Slots',
       description:
         'Hardware supply chain integrity protection verifying OEM certificates against manufacturer golden ledgers.',
@@ -107,18 +107,18 @@ export const FeaturesGrid: React.FC = () => {
   ];
 
   return (
-    <section id="features-section" className="py-24 bg-[#07090e] relative border-t border-slate-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+    <section id="features-section" className="py-24 bg-canvas relative border-t border-line">
+      <div className="page-container">
+
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-slate-300 text-xs font-semibold uppercase tracking-wider mb-4 font-mono">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-surface border border-line text-secondary text-xs font-semibold   mb-4 font-mono">
             <span>PRODUCT FEATURES</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white mb-4">
+          <h2 className="type-section text-ink mb-4">
             Everything you need for compliance.
           </h2>
-          <p className="text-base text-slate-400 leading-relaxed">
+          <p className="text-base text-muted leading-relaxed">
             Tesseracton hyper-scales continuous attestation across heterogeneous AI clusters, bare-metal GPUs, and confidential enclaves in real time.
           </p>
         </div>
@@ -131,36 +131,40 @@ export const FeaturesGrid: React.FC = () => {
             return (
               <div
                 key={f.id}
+                role="button"
+                tabIndex={0}
+                aria-expanded={isSelected}
+                onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); setActiveFeature(isSelected ? null : f.id); } }}
                 onClick={() => setActiveFeature(isSelected ? null : f.id)}
-                className={`glass-card rounded-2xl p-6 flex flex-col justify-between cursor-pointer transition-all duration-200 relative group overflow-hidden ${
+                className={`glass-card rounded-card p-6 flex flex-col justify-between cursor-pointer transition-colors duration-150 relative group overflow-hidden ${
                   isSelected
-                    ? 'border-indigo-500/80 bg-slate-900/90 shadow-lg shadow-indigo-900/30 ring-1 ring-indigo-500/50'
-                    : 'hover:border-slate-700 hover:bg-slate-900/60'
+                    ? 'border-line bg-surface   ring-1 ring-accent'
+                    : 'hover:border-line hover:bg-surface'
                 }`}
               >
                 <div>
-                  <div className="w-10 h-10 rounded-xl bg-slate-900/90 border border-slate-800 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+                  <div className="w-10 h-10 rounded-card bg-surface border border-line flex items-center justify-center mb-4  transition-transform">
                     <Icon className={`w-5 h-5 ${f.color}`} />
                   </div>
-                  <h3 className="text-base font-bold text-white mb-2 tracking-tight group-hover:text-sky-200 transition-colors">
+                  <h3 className="type-card text-ink mb-2 group-hover:text-accent transition-colors">
                     {f.title}
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-secondary leading-relaxed">
                     {f.description}
                   </p>
 
                   {/* Expanded deep details if clicked */}
                   {isSelected && (
-                    <div className="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-400 font-mono animate-in fade-in duration-200 bg-slate-950/40 p-2.5 rounded-lg border">
-                      <span className="text-sky-400 font-semibold block mb-1">Architecture Specification:</span>
+                    <div className="mt-4 pt-3 border-t border-line text-xs text-muted font-mono animate-in fade-in duration-150 bg-inset p-3 rounded-lg border">
+                      <span className="text-accent font-semibold block mb-1">Architecture Specification:</span>
                       {f.details}
                     </div>
                   )}
                 </div>
 
-                <div className="mt-5 pt-3 border-t border-slate-800/60 flex items-center justify-between text-[11px] text-slate-400 font-mono">
+                <div className="mt-5 pt-3 border-t border-line flex items-center justify-between text-xs text-muted font-mono">
                   <span>{isSelected ? 'Click to collapse' : 'Click to inspect'}</span>
-                  <ChevronRight className={`w-3.5 h-3.5 text-slate-400 group-hover:text-white transition-transform ${isSelected ? 'rotate-90' : ''}`} />
+                  <ChevronRight className={`w-3.5 h-3.5 text-muted group-hover:text-ink transition-transform ${isSelected ? 'rotate-90' : ''}`} />
                 </div>
               </div>
             );
