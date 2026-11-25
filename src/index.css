@@ -186,3 +186,21 @@ input[type="range"] { min-height:44px; }
 /* Labels are quiet metadata; emphasis comes from the display hierarchy. */
 .eyebrow > span { font-weight:400; }
 strong, b { font-weight:600; }
+/* TAG evidence stack: the layer selector highlights the corresponding hardware plane. */
+.tag-evidence-scene { overflow:hidden; background:var(--color-inset); border-radius:.5rem; }
+.tag-layer-label { font:12px var(--font-mono); }
+.tag-hardware-layer { transition:opacity 180ms var(--motion-ease); }
+.tag-hardware-layer[data-highlighted="false"] { opacity:.55; }
+.tag-evidence-pulse { animation:tag-evidence-flow 6s linear infinite; }
+.tag-evidence-scene.is-paused .tag-evidence-pulse { animation-play-state:paused; }
+.tag-layer-legend { margin-top:1rem; border-top:1px solid var(--color-line); }
+.tag-layer-summary { display:flex; align-items:flex-start; gap:.75rem; padding:.75rem; border-bottom:1px solid var(--color-line); border-left:2px solid transparent; }
+.tag-layer-summary.is-selected { border-left-color:var(--color-accent); background:var(--color-raised); }
+.tag-layer-summary > svg { margin-top:.25rem; }
+.tag-layer-summary h3 { font-size:.875rem; font-weight:500; line-height:1.5; }
+.tag-layer-summary p { color:var(--color-muted); font-size:.75rem; margin-top:.25rem; }
+@keyframes tag-evidence-flow { to { stroke-dashoffset:-100; } }
+@media (max-width:639px) {
+  /* The full-size HTML legend carries these labels on small screens. */
+  .tag-evidence-scene .tag-layer-label { display:none; }
+}
