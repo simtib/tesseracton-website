@@ -39,13 +39,12 @@ export const Footer = () => {
               Solutions & Services
             </h4>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/solutions" className="hover:text-ink text-secondary transition-colors">Solutions</Link></li>
               <li>
                 <Link
                   href="/services"
                   className="hover:text-ink transition-colors cursor-pointer text-secondary hover:text-ink"
                 >
-                  Professional Services
+                  Solutions &amp; Services
                 </Link>
               </li>
               <li>

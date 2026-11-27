@@ -23,7 +23,13 @@ export function HomeView({ onOpenPilotModal }: { onOpenPilotModal: () => void })
       {['Hardware identity', 'Geographic assurance', 'Authorised execution', 'Regulatory evidence'].map((label,index)=><div key={label} className="portfolio-strip-item"><span>0{index+1} /</span><strong>{label}</strong></div>)}
     </div></div>
     <section aria-label="The challenge" className="page-container portfolio-section">
-      <div className="section-heading"><span className="eyebrow">The challenge</span><div><h2 className="type-section">Export compliance cannot end at the point of sale.</h2><p>Advanced AI infrastructure creates a persistent accountability gap. Hardware can move, customers can change, and remote access can cross borders without moving a single accelerator. Static records alone cannot answer these questions.</p></div></div>
+      <div className="mb-12 border-t border-line pt-8">
+        <span className="eyebrow mb-6">The challenge</span>
+        <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-6 lg:gap-16 items-start">
+          <h2 className="type-section">Export compliance cannot end at the point of sale.</h2>
+          <p className="text-secondary">Advanced AI infrastructure creates a persistent accountability gap. Hardware can move, customers can change, and remote access can cross borders without moving a single accelerator. Static records alone cannot answer these questions.</p>
+        </div>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 my-10">
         {[
           { label: 'Risk 01 / Physical diversion', title: 'Where is the hardware?', description: 'Identify assets and corroborate location and custody against approved infrastructure boundaries. Investigate unexpected changes and missing evidence.' },
@@ -36,7 +42,13 @@ export function HomeView({ onOpenPilotModal }: { onOpenPilotModal: () => void })
       <div className="product-notice mb-10"><div className="flex flex-wrap items-center justify-between gap-4"><div><h3 className="type-label">US Department of Commerce ? 19 November 2026</h3><p>New BIS restrictions address certain overseas data centres providing significant compute access to specified foreign customers.</p></div><a href="https://www.govinfo.gov/app/details/FR-2026-11-19/2026-23529" className="text-accent text-sm inline-flex items-center gap-1">Official rule <ArrowUpRight size={16} aria-hidden="true" /></a></div></div>
     </section>
     <section aria-labelledby="architecture-title" className="architecture-section"><div className="page-container">
-      <div className="section-heading"><span className="eyebrow">The Tesseracton platform</span><div><h2 id="architecture-title" className="type-section">One trust layer.<br />From silicon to execution.</h2><p>TAG brings manufacturer evidence, infrastructure observations and operator-defined policy together. Its modular architecture is designed to turn verified facts into governed decisions and evidence that authorised parties can review independently.</p><div className="hero-actions"><Link href="/products" className="control control-primary">Explore Products <ArrowRight size={16} aria-hidden="true" /></Link></div></div></div>
+      <div className="section-heading block! mb-12">
+        <span className="eyebrow mb-6">The Tesseracton platform</span>
+        <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-6 lg:gap-16 items-start">
+          <h2 id="architecture-title" className="type-section">One trust layer.<br />From silicon to execution.</h2>
+          <div><p className="mt-0!">TAG brings manufacturer evidence, infrastructure observations and operator-defined policy together. Its modular architecture is designed to turn verified facts into governed decisions and evidence that authorised parties can review independently.</p><div className="hero-actions"><Link href="/products" className="control control-primary">Explore Products <ArrowRight size={16} aria-hidden="true" /></Link></div></div>
+        </div>
+      </div>
       <ol className="architecture-rail lg:grid-cols-5">{[
         { stage: 'Observe', title: 'Identify', description: 'GPU inventory, hardware quotes, rack and location witnesses.' },
         { stage: 'Verify', title: 'Validate', description: 'Evidence integrity, freshness, baseline and confidence.' },

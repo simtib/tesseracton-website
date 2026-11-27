@@ -21,7 +21,7 @@ export const pageDetails: Record<NavigationTab, { title: string; description: st
   'ai-trust-fabric': { title: 'TAG AI Trust Fabric', description: 'Concept overview for AI execution governance connecting verified infrastructure to approved models, datasets, identities, policies, and execution evidence.' },
   products: { title: 'Products', description: 'Built for the entire AI compute lifecycle. Explore the four Tesseracton platform disciplines.' },
   solutions: { title: 'Solutions', description: 'Designed for organisations that export, operate, finance, govern or rely on advanced computing infrastructure.' },
-  insights: { title: 'Insights', description: 'Insights from Tesseracton. Explore the existing product portfolio while new insights are prepared.' },
+  insights: { title: 'Insights', description: 'Selected official sources explaining why ongoing compute accountability matters.' },
   services: {
     title: 'Professional Services',
     description: 'Deploy sovereign AI infrastructure with Tesseracton: air-gapped deployments, custom PCR baseline audits, and infrastructure compliance services.',

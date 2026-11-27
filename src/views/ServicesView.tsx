@@ -124,7 +124,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ onOpenPilotModal }) 
       <div className="page-container relative z-10">
 
         {/* Header */}
-        <div className="max-w-4xl text-left pt-8 pb-14 space-y-6">
+        <div className="max-w-5xl text-left pt-8 pb-10 sm:pb-12 space-y-6">
           <div className="eyebrow">
             <Building2 className="w-4 h-4 text-accent" />
             <span className=" text-xs font-mono  font-semibold text-accent">
@@ -139,14 +139,14 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ onOpenPilotModal }) 
             </span>
           </h1>
 
-          <p className="text-base sm:text-lg text-secondary max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg text-secondary max-w-2xl leading-relaxed">
             Our cryptographic solutions architects deploy dedicated attestation nodes, perform custom PCR baseline audits, and accelerate sovereign AI regulatory certifications.
           </p>
 
           <div className="pt-2">
             <button
               onClick={onOpenPilotModal}
-              className="control control-primary px-6 py-4  font-semibold transition-colors flex items-center gap-2 mx-auto cursor-pointer"
+              className="control control-primary px-6 py-4 font-semibold transition-colors flex items-center gap-2 cursor-pointer"
             >
               <span>Schedule Architecture Briefing</span>
               <ArrowRight className="w-4 h-4" />

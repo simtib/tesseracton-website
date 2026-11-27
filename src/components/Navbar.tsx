@@ -101,14 +101,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             Products
           </Link>
 
-          {(['solutions'] as const).map(tab => (
-            <Link key={tab} href={`/${tab}`} aria-current={activeTab === tab ? 'page' : undefined} onNavigate={closeMenus}
-              className={`px-4 py-2 rounded-lg transition-colors text-sm font-medium ${activeTab === tab ? activeClass : inactiveClass}`}>
-              Solutions
-            </Link>
-          ))}
-
-          {/* Services Tab */}
+          {/* Solutions & Services Tab */}
           <Link
             href="/services" aria-current={activeTab === 'services' ? 'page' : undefined} onNavigate={closeMenus}
             className={`px-4 py-2 rounded-lg transition-colors text-sm font-medium ${
@@ -116,7 +109,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 ? activeClass : inactiveClass
             }`}
           >
-            Services
+            Solutions &amp; Services
           </Link>
 
           <Link href="/insights" aria-current={activeTab === 'insights' ? 'page' : undefined} onNavigate={closeMenus}
@@ -206,20 +199,13 @@ export const Navbar: React.FC<NavbarProps> = ({
               </div>
             </div>
 
-          {(['solutions'] as const).map(tab => (
-            <Link key={tab} href={`/${tab}`} aria-current={activeTab === tab ? 'page' : undefined} onNavigate={closeMenus}
-              className={`text-left px-3 py-2 rounded-lg text-sm font-medium ${activeTab === tab ? activeClass : inactiveClass}`}>
-              Solutions
-            </Link>
-          ))}
-
             <Link
               href="/services" aria-current={activeTab === 'services' ? 'page' : undefined} onNavigate={closeMenus}
               className={`text-left px-3 py-2 rounded-lg text-sm font-medium ${
                 activeTab === 'services' ? activeClass : inactiveClass
               }`}
             >
-              Services
+              Solutions &amp; Services
             </Link>
 
           <Link href="/insights" aria-current={activeTab === 'insights' ? 'page' : undefined} onNavigate={closeMenus}
