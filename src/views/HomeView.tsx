@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
-import { products } from '../data/products';
 
 export function HomeView({ onOpenPilotModal }: { onOpenPilotModal: () => void }) {
   return <>
@@ -9,9 +8,9 @@ export function HomeView({ onOpenPilotModal }: { onOpenPilotModal: () => void })
       <Image src="/images/compute-rack.webp" alt="" fill priority sizes="100vw" className="portfolio-hero-image" />
       <div className="page-container">
         <div className="portfolio-hero-copy">
-          <span className="eyebrow">Tesseracton / Sovereign AI infrastructure suite</span>
-          <h1>The trust fabric for sovereign &amp; regulated AI</h1>
-          <p>Four independently deployable products span AI infrastructure operations, asset intelligence, cryptographic hardware assurance, and AI execution governance. Use each on its own or combine them into an integrated stack.</p>
+          <span className="eyebrow">Independent AI compute assurance</span>
+          <h1>Trust the silicon. Control the compute. <em>Prove the compliance.</em></h1>
+          <p>Independent assurance for export-controlled GPUs, sovereign AI infrastructure and regulated AI workloads. Go beyond asset tracking to evidence-led governance of where compute operates, who can use it and what it is authorised to do.</p>
           <div className="hero-actions">
             <Link href="/tag" className="control control-primary">Explore TAG (Assurance Grid) <ArrowRight size={16} /></Link>
             <Link href="/aegis-os" className="control">Explore Aegis AI OS <ArrowUpRight size={16} /></Link>
@@ -21,22 +20,32 @@ export function HomeView({ onOpenPilotModal }: { onOpenPilotModal: () => void })
       <span className="image-caption">Illustrative compute infrastructure</span>
     </section>
     <div className="portfolio-strip"><div className="page-container portfolio-strip-inner">
-      {products.map((product,index)=><div key={product.id} className="portfolio-strip-item"><span>0{index+1} / {product.layer}</span><strong>{['Aegis AI OS','Infrastructure Intelligence','Assurance Grid','AI Trust Fabric'][index]}</strong></div>)}
+      {['Hardware identity', 'Geographic assurance', 'Authorised execution', 'Regulatory evidence'].map((label,index)=><div key={label} className="portfolio-strip-item"><span>0{index+1} /</span><strong>{label}</strong></div>)}
     </div></div>
-    <section aria-label="Product portfolio" className="page-container portfolio-section">
-      <div className="section-heading"><span className="eyebrow">01 / Product portfolio</span><div><h2 className="type-section">Four disciplines.<br />One accountable infrastructure.</h2><p>From the operating system to execution evidence, each product addresses a distinct layer of the AI infrastructure lifecycle.</p></div></div>
-      {products.map((product,index)=><Link key={product.id} href={product.href} className="portfolio-row">
-        <span className="portfolio-index">0{index+1}</span>
-        <div><p className="eyebrow mb-4">{product.layer}</p><h2>{product.name}</h2><span className="portfolio-status">{product.status}</span></div>
-        <div className="portfolio-row-details"><p>{product.description}</p><ul>{product.features.map(feature=><li key={feature}>{feature}</li>)}</ul></div>
-        <div className="portfolio-next"><ArrowUpRight size={24}/><span>{index===0||index===2?'Explore product':'View product preview'}</span></div>
-      </Link>)}
+    <section aria-label="The challenge" className="page-container portfolio-section">
+      <div className="section-heading"><span className="eyebrow">The challenge</span><div><h2 className="type-section">Export compliance cannot end at the point of sale.</h2><p>Advanced AI infrastructure creates a persistent accountability gap. Hardware can move, customers can change, and remote access can cross borders without moving a single accelerator. Static records alone cannot answer these questions.</p></div></div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 my-10">
+        {[
+          { label: 'Risk 01 / Physical diversion', title: 'Where is the hardware?', description: 'Identify assets and corroborate location and custody against approved infrastructure boundaries. Investigate unexpected changes and missing evidence.' },
+          { label: 'Risk 02 / Remote access', title: 'Who is using the compute?', description: 'Connect tenant, delegated access and workload permissions to verified compute. Support operator-led checks against approved customer and end-use policies.' },
+          { label: 'Risk 03 / Evidence gap', title: 'Can you demonstrate it?', description: 'Move from point in time attestations to traceable evidence of observed state, policy decisions and exceptions, with scope and confidence made explicit.' },
+        ].map(risk => <article key={risk.label} className="glass-card p-6 flex flex-col gap-4">
+          <span className="eyebrow">{risk.label}</span><h3 className="type-card text-ink">{risk.title}</h3><p className="text-secondary">{risk.description}</p>
+        </article>)}
+      </div>
+      <div className="product-notice mb-10"><div className="flex flex-wrap items-center justify-between gap-4"><div><h3 className="type-label">US Department of Commerce ? 19 November 2026</h3><p>New BIS restrictions address certain overseas data centres providing significant compute access to specified foreign customers.</p></div><a href="https://www.govinfo.gov/app/details/FR-2026-11-19/2026-23529" className="text-accent text-sm inline-flex items-center gap-1">Official rule <ArrowUpRight size={16} aria-hidden="true" /></a></div></div>
     </section>
     <section aria-labelledby="architecture-title" className="architecture-section"><div className="page-container">
-      <div className="section-heading"><span className="eyebrow">02 / Four-product architecture</span><div><h2 id="architecture-title" className="type-section">Independent products.<br />An integrated stack.</h2><p>Each product addresses a distinct operational need without requiring the others. The Intelligence Platform can inventory third-party Linux and bare-metal fleets without Aegis or TAG. Aegis exposes open attestation interfaces without requiring TAG.</p></div></div>
-      <ol className="architecture-rail">{products.map((product,index)=><li key={product.id} className="architecture-node"><span>0{index+1} / {product.layer}</span><h3>{product.name}</h3><p>{product.summary}</p></li>)}</ol>
-      <p className="text-sm max-w-4xl">This is the proposed integration architecture, not a production availability statement. Aegis is described in an architecture proposal, the Intelligence Platform and TAG in product specifications, and TAG AI Trust Fabric as a concept. The TAG dashboard on this website uses simulated data.</p>
+      <div className="section-heading"><span className="eyebrow">The Tesseracton platform</span><div><h2 id="architecture-title" className="type-section">One trust layer.<br />From silicon to execution.</h2><p>TAG brings manufacturer evidence, infrastructure observations and operator-defined policy together. Its modular architecture is designed to turn verified facts into governed decisions and evidence that authorised parties can review independently.</p><div className="hero-actions"><Link href="/products" className="control control-primary">Explore Products <ArrowRight size={16} aria-hidden="true" /></Link></div></div></div>
+      <ol className="architecture-rail lg:grid-cols-5">{[
+        { stage: 'Observe', title: 'Identify', description: 'GPU inventory, hardware quotes, rack and location witnesses.' },
+        { stage: 'Verify', title: 'Validate', description: 'Evidence integrity, freshness, baseline and confidence.' },
+        { stage: 'Decide', title: 'Authorise', description: 'Tenant, region, workload and permit policy evaluation.' },
+        { stage: 'Enforce', title: 'Control', description: 'Designed integration with scheduler, key release and gateways.' },
+        { stage: 'Prove', title: 'Demonstrate', description: 'Signed outcomes, evidence manifests and selective disclosure.' },
+      ].map((step,index)=><li key={step.stage} className="architecture-node"><span>0{index+1} / {step.stage}</span><h3>{step.title}</h3><p>{step.description}</p></li>)}</ol>
+      <p className="text-sm max-w-4xl">Reference architecture. Enforcement and proof features depend on validated integrations and agreed deployment scope.</p>
     </div></section>
-    <section className="page-container closing-cta"><div><span className="eyebrow mb-6">03 / Start a conversation</span><h2 className="type-section">Ready to deploy mathematically provable AI infrastructure?</h2><p>Evaluate TAG on your existing GPU nodes or request early deployment access to Aegis AI OS.</p></div><div className="hero-actions"><button onClick={onOpenPilotModal} className="control control-primary">Request Enterprise Pilot <ArrowRight size={16}/></button><Link href="/contact" className="control">Contact Sales</Link></div></section>
+    <section className="page-container closing-cta"><div><span className="eyebrow mb-6">Engage Tesseracton</span><h2 className="type-section">Make your AI infrastructure accountable.</h2><p>Request an executive briefing or a technical evaluation of your GPU fleet. Define your assurance objectives, review supported platforms and agree a measurable pilot scope.</p></div><div className="hero-actions"><Link href="/contact" className="control control-primary">Request a briefing <ArrowUpRight size={16} aria-hidden="true" /></Link><button onClick={onOpenPilotModal} className="control">Discuss an enterprise pilot <ArrowUpRight size={16} aria-hidden="true" /></button></div></section>
   </>;
 }

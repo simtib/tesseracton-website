@@ -1,11 +1,12 @@
 import type { ReactNode } from 'react';
 import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
 import { products } from '../data/products';
 
 export function ProductMasthead({ id, children }: { id: string; children?: ReactNode }) {
   const index=products.findIndex(product=>product.id===id);
   const product=products[index];
-  return <div className="product-masthead"><div className="page-container product-masthead-inner"><Link href="/" className="text-sm text-secondary hover:text-ink">Products / {product.name}</Link><div className="flex flex-wrap items-center gap-3"><span>0{index+1} / {product.status}</span>{children}</div></div></div>;
+  return <div className="product-masthead"><div className="page-container product-masthead-inner"><div className="flex flex-wrap items-center gap-3"><Link href="/products" className="control"><ArrowLeft size={16} aria-hidden="true" />Back to Products</Link><span>{product.name}</span></div><div className="flex flex-wrap items-center gap-3"><span>0{index+1} / {product.status}</span>{children}</div></div></div>;
 }
 
 export function ProductDiagram({ id }: { id: string }) {

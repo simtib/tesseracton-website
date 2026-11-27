@@ -2,7 +2,7 @@ import { BrandMark } from './BrandMark';
 import Link from 'next/link';
 import { products } from '../data/products';
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronDown, ArrowRight, Menu, X, ShieldCheck, Cpu } from 'lucide-react';
+import { ArrowRight, Menu, X, ShieldCheck } from 'lucide-react';
 import { NavigationTab } from '../types';
 
 interface NavbarProps {
@@ -15,14 +15,11 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenPilotModal,
 }) => {
   const [scrolled, setScrolled] = useState(false);
-  const [productsOpen, setProductsOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const productsButtonRef = useRef<HTMLButtonElement>(null);
   const mobileButtonRef = useRef<HTMLButtonElement>(null);
   const navRef = useRef<HTMLElement>(null);
   const activeClass = 'bg-raised text-ink border border-control-line';
   const inactiveClass = 'border border-transparent text-secondary hover:text-ink hover:bg-raised';
-  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,16 +30,9 @@ export const Navbar: React.FC<NavbarProps> = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close dropdown on outside click
+  // Close the mobile menu on resize.
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setProductsOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
     const handleResize = () => {
-      setProductsOpen(false);
       setMobileMenuOpen(false);
       const focused = document.activeElement;
       if (focused instanceof HTMLElement && navRef.current?.contains(focused) && !focused.getClientRects().length) {
@@ -51,17 +41,15 @@ export const Navbar: React.FC<NavbarProps> = ({
     };
     window.addEventListener('resize', handleResize);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
       window.removeEventListener('resize', handleResize);
     };
   }, []);
 
   const closeMenus = () => {
-    setProductsOpen(false);
     setMobileMenuOpen(false);
   };
 
-  const isProductActive = products.some(product => product.id === activeTab);
+  const isProductActive = activeTab === 'products' || products.some(product => product.id === activeTab);
 
   return (
     <nav
@@ -71,10 +59,9 @@ export const Navbar: React.FC<NavbarProps> = ({
         if (!event.currentTarget.contains(event.relatedTarget)) closeMenus();
       }}
       onKeyDown={event => {
-        if (event.key === 'Escape' && (productsOpen || mobileMenuOpen)) {
+        if (event.key === 'Escape' && mobileMenuOpen) {
           event.preventDefault();
-          if (productsOpen) productsButtonRef.current?.focus();
-          else mobileButtonRef.current?.focus();
+          mobileButtonRef.current?.focus();
           closeMenus();
         }
       }}
@@ -109,50 +96,17 @@ export const Navbar: React.FC<NavbarProps> = ({
             Home
           </Link>
 
-          {/* Products Dropdown */}
-          <div className="relative" ref={dropdownRef} onBlur={event => {
-            if (!event.currentTarget.contains(event.relatedTarget)) setProductsOpen(false);
-          }}>
-            <button
-              onClick={() => setProductsOpen(!productsOpen)}
-              ref={productsButtonRef}
-              aria-expanded={productsOpen}
-              aria-controls="products-navigation"
-              onKeyDown={event => {
-                if (event.key === 'ArrowDown') {
-                  event.preventDefault();
-                  setProductsOpen(true);
-                  requestAnimationFrame(() => dropdownRef.current?.querySelector<HTMLAnchorElement>('a')?.focus());
-                }
-              }}
-              className={`px-4 py-2 rounded-lg transition-colors flex items-center gap-1.5 text-sm font-medium ${
-                isProductActive
-                  ? activeClass : inactiveClass
-              }`}
-            >
-              <span>Products</span>
-              <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-150 ${productsOpen ? 'rotate-180 text-ink' : 'text-muted'}`} />
-            </button>
+          <Link href="/products" aria-current={activeTab === 'products' ? 'page' : undefined} onNavigate={closeMenus}
+            className={`px-4 py-2 rounded-lg transition-colors text-sm font-medium ${isProductActive ? activeClass : inactiveClass}`}>
+            Products
+          </Link>
 
-            {/* Dropdown Menu */}
-            {productsOpen && (
-              <div
-                id="products-navigation"
-                className="absolute top-full left-0 mt-2 w-[480px] max-h-[calc(100dvh-6rem)] overflow-y-auto rounded-card bg-surface border border-line p-2   animate-in fade-in slide-in-from-top-2 duration-150 z-50"
-              >
-                {products.map(product => (
-                  <Link key={product.id} href={product.href} aria-label={product.name} aria-current={activeTab === product.id ? 'page' : undefined} onNavigate={closeMenus}
-                    className={`w-full p-3 rounded-card text-left transition-colors flex items-start gap-3 group ${activeTab === product.id ? activeClass : inactiveClass}`}>
-                    <span className="text-xs font-mono text-muted mt-1">0{products.indexOf(product)+1}</span>
-                    <div className="min-w-0">
-                      <span className="text-sm font-semibold text-ink">{product.name}</span>
-                      <p className="text-sm text-secondary mt-1 leading-relaxed">{product.layer} / {product.status}</p>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
+          {(['solutions'] as const).map(tab => (
+            <Link key={tab} href={`/${tab}`} aria-current={activeTab === tab ? 'page' : undefined} onNavigate={closeMenus}
+              className={`px-4 py-2 rounded-lg transition-colors text-sm font-medium ${activeTab === tab ? activeClass : inactiveClass}`}>
+              Solutions
+            </Link>
+          ))}
 
           {/* Services Tab */}
           <Link
@@ -163,6 +117,11 @@ export const Navbar: React.FC<NavbarProps> = ({
             }`}
           >
             Services
+          </Link>
+
+          <Link href="/insights" aria-current={activeTab === 'insights' ? 'page' : undefined} onNavigate={closeMenus}
+            className={`px-4 py-2 rounded-lg transition-colors text-sm font-medium ${activeTab === 'insights' ? activeClass : inactiveClass}`}>
+            Insights
           </Link>
 
           {/* Company Tab */}
@@ -235,7 +194,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* Products Group on Mobile */}
             <div className="pt-1 pb-1">
-              <span className="px-3 text-xs font-mono  text-muted font-semibold ">Products</span>
+              <Link href="/products" aria-current={activeTab === 'products' ? 'page' : undefined} onNavigate={closeMenus} className={`block text-left px-3 py-2 rounded-lg text-sm font-medium ${isProductActive ? activeClass : inactiveClass}`}>Products</Link>
               <div className="mt-1 pl-2 space-y-1">
                 {products.map(product => (
                   <Link key={product.id} href={product.href} aria-label={product.name} aria-current={activeTab === product.id ? 'page' : undefined} onNavigate={closeMenus}
@@ -247,6 +206,13 @@ export const Navbar: React.FC<NavbarProps> = ({
               </div>
             </div>
 
+          {(['solutions'] as const).map(tab => (
+            <Link key={tab} href={`/${tab}`} aria-current={activeTab === tab ? 'page' : undefined} onNavigate={closeMenus}
+              className={`text-left px-3 py-2 rounded-lg text-sm font-medium ${activeTab === tab ? activeClass : inactiveClass}`}>
+              Solutions
+            </Link>
+          ))}
+
             <Link
               href="/services" aria-current={activeTab === 'services' ? 'page' : undefined} onNavigate={closeMenus}
               className={`text-left px-3 py-2 rounded-lg text-sm font-medium ${
@@ -255,6 +221,11 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               Services
             </Link>
+
+          <Link href="/insights" aria-current={activeTab === 'insights' ? 'page' : undefined} onNavigate={closeMenus}
+            className={`text-left px-3 py-2 rounded-lg text-sm font-medium ${activeTab === 'insights' ? activeClass : inactiveClass}`}>
+            Insights
+          </Link>
 
             <Link
               href="/company" aria-current={activeTab === 'company' ? 'page' : undefined} onNavigate={closeMenus}

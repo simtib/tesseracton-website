@@ -26,7 +26,7 @@ export const Footer = () => {
           {/* Products Col */}
           <div className="space-y-3">
             <h4 className="type-label text-ink">
-              Products
+              <Link href="/products" className="hover:text-ink transition-colors">Products</Link>
             </h4>
             <ul className="space-y-2 text-sm">
               {products.map(product => <li key={product.id}><Link href={product.href} className="hover:text-ink text-secondary transition-colors">{product.name}</Link></li>)}
@@ -39,6 +39,7 @@ export const Footer = () => {
               Solutions & Services
             </h4>
             <ul className="space-y-2 text-sm">
+              <li><Link href="/solutions" className="hover:text-ink text-secondary transition-colors">Solutions</Link></li>
               <li>
                 <Link
                   href="/services"
@@ -80,6 +81,7 @@ export const Footer = () => {
               Company & Inquiries
             </h4>
             <ul className="space-y-2 text-sm">
+              <li><Link href="/insights" className="hover:text-ink text-secondary transition-colors">Insights</Link></li>
               <li>
                 <Link
                   href="/company"
