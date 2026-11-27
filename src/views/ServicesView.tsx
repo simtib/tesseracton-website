@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import {
   Building2,
   Wrench,
@@ -139,18 +140,18 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ onOpenPilotModal }) 
             </span>
           </h1>
 
-          <p className="text-base sm:text-lg text-secondary max-w-2xl leading-relaxed">
+          <div className="flex flex-col lg:flex-row lg:items-center gap-6 lg:gap-8">
+          <p className="text-base sm:text-lg text-secondary max-w-2xl leading-relaxed flex-1">
             Our cryptographic solutions architects deploy dedicated attestation nodes, perform custom PCR baseline audits, and accelerate sovereign AI regulatory certifications.
           </p>
 
-          <div className="pt-2">
-            <button
-              onClick={onOpenPilotModal}
-              className="control control-primary px-6 py-4 font-semibold transition-colors flex items-center gap-2 cursor-pointer"
+            <Link
+              href="/contact#inquiry-form"
+              className="control control-primary self-start lg:self-center shrink-0 px-4 py-2 font-semibold gap-2"
             >
               <span>Schedule Architecture Briefing</span>
               <ArrowRight className="w-4 h-4" />
-            </button>
+            </Link>
           </div>
         </div>
 
@@ -229,13 +230,13 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ onOpenPilotModal }) 
               Our cryptographic solutions architects deploy dedicated attestation nodes, perform custom PCR baseline audits, and assist with sovereign AI regulatory filings.
             </p>
           </div>
-          <button
-            onClick={onOpenPilotModal}
+          <Link
+            href="/contact#inquiry-form"
             className="control control-primary px-6 py-3  font-semibold transition-colors flex items-center gap-2 whitespace-nowrap cursor-pointer"
           >
             <span>Request Consultation</span>
             <ArrowRight className="w-4 h-4" />
-          </button>
+          </Link>
         </div>
 
       </div>

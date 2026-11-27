@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Fingerprint, MapPin, ShieldCheck, FileCheck2 } from 'lucide-react';
 
 export function HomeView({ onOpenPilotModal }: { onOpenPilotModal: () => void }) {
   return <>
@@ -12,15 +12,19 @@ export function HomeView({ onOpenPilotModal }: { onOpenPilotModal: () => void })
           <h1>Trust the silicon. Control the compute. <em>Prove the compliance.</em></h1>
           <p>Independent assurance for export-controlled GPUs, sovereign AI infrastructure and regulated AI workloads. Go beyond asset tracking to evidence-led governance of where compute operates, who can use it and what it is authorised to do.</p>
           <div className="hero-actions">
-            <Link href="/tag" className="control control-primary">Explore TAG (Assurance Grid) <ArrowRight size={16} /></Link>
-            <Link href="/aegis-os" className="control">Explore Aegis AI OS <ArrowUpRight size={16} /></Link>
+            <Link href="/contact#inquiry-form" className="control control-primary">Request a Briefing <ArrowRight size={16} /></Link>
+            <Link href="/products" className="control">Explore Platform <ArrowUpRight size={16} /></Link>
           </div>
         </div>
       </div>
-      <span className="image-caption">Illustrative compute infrastructure</span>
     </section>
     <div className="portfolio-strip"><div className="page-container portfolio-strip-inner">
-      {['Hardware identity', 'Geographic assurance', 'Authorised execution', 'Regulatory evidence'].map((label,index)=><div key={label} className="portfolio-strip-item"><span>0{index+1} /</span><strong>{label}</strong></div>)}
+      {[
+        { label: 'Hardware identity', Icon: Fingerprint },
+        { label: 'Geographic assurance', Icon: MapPin },
+        { label: 'Authorised execution', Icon: ShieldCheck },
+        { label: 'Regulatory evidence', Icon: FileCheck2 },
+      ].map(({label, Icon})=><div key={label} className="portfolio-strip-item"><div className="flex items-center gap-3"><Icon size={20} className="text-accent shrink-0" aria-hidden="true" /><strong>{label}</strong></div></div>)}
     </div></div>
     <section aria-label="The challenge" className="page-container portfolio-section">
       <div className="mb-12 border-t border-line pt-8">
@@ -46,7 +50,7 @@ export function HomeView({ onOpenPilotModal }: { onOpenPilotModal: () => void })
         <span className="eyebrow mb-6">The Tesseracton platform</span>
         <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-6 lg:gap-16 items-start">
           <h2 id="architecture-title" className="type-section">One trust layer.<br />From silicon to execution.</h2>
-          <div><p className="mt-0!">TAG brings manufacturer evidence, infrastructure observations and operator-defined policy together. Its modular architecture is designed to turn verified facts into governed decisions and evidence that authorised parties can review independently.</p><div className="hero-actions"><Link href="/products" className="control control-primary">Explore Products <ArrowRight size={16} aria-hidden="true" /></Link></div></div>
+          <div><p className="mt-0!">Tesseraction brings manufacturer evidence, infrastructure observations and operator-defined policy together. Its modular architecture is designed to turn verified facts into governed decisions and evidence that authorised parties can review independently.</p><div className="hero-actions"><Link href="/products" className="control control-primary">Explore Platform <ArrowRight size={16} aria-hidden="true" /></Link></div></div>
         </div>
       </div>
       <ol className="architecture-rail lg:grid-cols-5">{[
@@ -55,7 +59,7 @@ export function HomeView({ onOpenPilotModal }: { onOpenPilotModal: () => void })
         { stage: 'Decide', title: 'Authorise', description: 'Tenant, region, workload and permit policy evaluation.' },
         { stage: 'Enforce', title: 'Control', description: 'Designed integration with scheduler, key release and gateways.' },
         { stage: 'Prove', title: 'Demonstrate', description: 'Signed outcomes, evidence manifests and selective disclosure.' },
-      ].map((step,index)=><li key={step.stage} className="architecture-node"><span>0{index+1} / {step.stage}</span><h3>{step.title}</h3><p>{step.description}</p></li>)}</ol>
+      ].map(step=><li key={step.stage} className="architecture-node"><h3>{step.title}</h3><p>{step.description}</p></li>)}</ol>
       <p className="text-sm max-w-4xl">Reference architecture. Enforcement and proof features depend on validated integrations and agreed deployment scope.</p>
     </div></section>
     <section className="page-container closing-cta"><div><span className="eyebrow mb-6">Engage Tesseracton</span><h2 className="type-section">Make your AI infrastructure accountable.</h2><p>Request an executive briefing or a technical evaluation of your GPU fleet. Define your assurance objectives, review supported platforms and agree a measurable pilot scope.</p></div><div className="hero-actions"><Link href="/contact" className="control control-primary">Request a briefing <ArrowUpRight size={16} aria-hidden="true" /></Link><button onClick={onOpenPilotModal} className="control">Discuss an enterprise pilot <ArrowUpRight size={16} aria-hidden="true" /></button></div></section>

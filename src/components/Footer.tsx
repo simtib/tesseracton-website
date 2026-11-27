@@ -7,10 +7,10 @@ export const Footer = () => {
   return (
     <footer className="site-footer phase-one text-muted text-sm">
       <div className="page-container">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-line">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-line">
 
           {/* Brand Col */}
-          <div className="lg:col-span-2 space-y-4">
+          <div className="space-y-4">
             <Link
               href="/"
               className="flex items-center gap-3 cursor-pointer group"

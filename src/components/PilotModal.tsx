@@ -14,7 +14,7 @@ function PilotForm({ onClose }: { onClose: () => void }) {
   const [gpuCount, setGpuCount] = useState<number>(64);
   const [acceleratorType, setAcceleratorType] = useState<string>('NVIDIA H100 SXM5');
   const [region, setRegion] = useState<string>('EU-Central (Frankfurt)');
-  const [frameworks, setFrameworks] = useState<string[]>(['EU AI Act Sovereign Compute', 'NIST AI RMF 100-1']);
+  const [capabilities, setCapabilities] = useState<string[]>([]);
   const [email, setEmail] = useState<string>('');
   const [company, setCompany] = useState<string>('');
   const [submitted, setSubmitted] = useState<boolean>(false);
@@ -39,7 +39,7 @@ function PilotForm({ onClose }: { onClose: () => void }) {
     setGpuCount(64);
     setAcceleratorType('NVIDIA H100 SXM5');
     setRegion('EU-Central (Frankfurt)');
-    setFrameworks(['EU AI Act Sovereign Compute', 'NIST AI RMF 100-1']);
+    setCapabilities([]);
     setEmail('');
     setCompany('');
     setError('');
@@ -47,11 +47,11 @@ function PilotForm({ onClose }: { onClose: () => void }) {
     setSubmitted(false);
   };
 
-  const toggleFramework = (fw: string) => {
-    if (frameworks.includes(fw)) {
-      setFrameworks(frameworks.filter((f) => f !== fw));
+  const toggleCapability = (fw: string) => {
+    if (capabilities.includes(fw)) {
+      setCapabilities(capabilities.filter((f) => f !== fw));
     } else {
-      setFrameworks([...frameworks, fw]);
+      setCapabilities([...capabilities, fw]);
     }
   };
 
@@ -109,7 +109,7 @@ function PilotForm({ onClose }: { onClose: () => void }) {
                 <div className="break-all">Email: {email}</div>
                 <div>Cluster: <span className="text-accent">{gpuCount}x {acceleratorType}</span></div>
                 <div>Region: <span className="text-accent">{region}</span></div>
-                <div>Frameworks: <span className="text-success">{frameworks.join(', ') || 'None selected'}</span></div>
+                <div>Product Capabilities: <span className="text-success">{capabilities.join(', ') || 'None selected'}</span></div>
               </div>
               <div className="flex flex-wrap justify-center gap-3">
                 <button type="button" onClick={() => setSubmitted(false)} className="control min-h-11 px-4 bg-raised hover:bg-selected">Edit details</button>
@@ -189,28 +189,28 @@ function PilotForm({ onClose }: { onClose: () => void }) {
               </div>
 
               </fieldset>
-              {/* Compliance Frameworks Selection */}
+              {/* Product Capabilities Selection */}
               <fieldset className="min-w-0">
-                <legend className="block text-base text-ink font-semibold mb-3">Compliance requirements (optional)</legend>
+                <legend className="block text-base text-ink font-semibold mb-3">Product Capabilities (optional)</legend>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {[
-                    'EU AI Act Sovereign Compute',
-                    'NIST AI RMF 100-1',
-                    'US BIS Export Controls (3A090)',
-                    'HIPAA & SOC 2 Type II Confidential',
+                    'Infrastructure Foundation',
+                    'Asset Visibility & Compliance',
+                    'Hardware Assurance & Governance',
+                    'Regulator-Facing Assurance Plane',
                   ].map((fw) => (
                     <label
                       key={fw}
                       className={`p-3 rounded-lg border cursor-pointer flex items-center gap-2 transition-colors ${
-                        frameworks.includes(fw)
+                        capabilities.includes(fw)
                           ? 'bg-raised border-line text-ink'
                           : 'bg-surface border-line text-muted hover:text-ink'
                       }`}
                     >
                       <input
                         type="checkbox"
-                        checked={frameworks.includes(fw)}
-                        onChange={() => toggleFramework(fw)}
+                        checked={capabilities.includes(fw)}
+                        onChange={() => toggleCapability(fw)}
                         className="h-4 w-4 shrink-0 accent-action"
                       />
                       <span className="text-sm">{fw}</span>
